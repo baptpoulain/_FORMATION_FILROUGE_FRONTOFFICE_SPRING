@@ -14,12 +14,16 @@ public class RolesEntity {
     @Basic
     @Column(name = "role_name")
     private String roleName;
-    @OneToMany(mappedBy = "rolesByRoleId")
+    @OneToMany (fetch = FetchType.EAGER,  mappedBy = "rolesByRoleId")
     private Collection<UsersEntity> usersByRoleId;
 
 
     public RolesEntity(String roleName) {
         this.roleName = roleName;
+    }
+
+    public RolesEntity() {
+
     }
 
     public int getRoleId() {

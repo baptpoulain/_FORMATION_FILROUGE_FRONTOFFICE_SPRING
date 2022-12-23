@@ -1,12 +1,17 @@
 package com.example.FilRougeFrontOffice.repository.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "bdd_fil_rouge")
-public class UsersEntity {
+public class UsersEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "user_id")
@@ -42,7 +47,7 @@ public class UsersEntity {
     private Collection<InteractEntity> interactsByUserId;
     @OneToMany(mappedBy = "usersByUserId" , cascade = {CascadeType.REMOVE})
     private Collection<PlanningsEntity> planningsByUserId;
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     private RolesEntity rolesByRoleId;
 
@@ -57,19 +62,11 @@ public class UsersEntity {
         this.userCity = userCity;
     }
 
-    public UsersEntity(String userName, String userFirstname, String userPassword, String userEmail, String userPicture, Byte isActive, int roleId, String userCity, Collection<InteractEntity> interactsByUserId, Collection<PlanningsEntity> planningsByUserId, RolesEntity rolesByRoleId) {
-        this.userName = userName;
-        this.userFirstname = userFirstname;
-        this.userPassword = userPassword;
-        this.userEmail = userEmail;
-        this.userPicture = userPicture;
-        this.isActive = isActive;
-        this.roleId = roleId;
-        this.userCity = userCity;
-        this.interactsByUserId = interactsByUserId;
-        this.planningsByUserId = planningsByUserId;
-        this.rolesByRoleId = rolesByRoleId;
+
+    public UsersEntity() {
+
     }
+
 
     public int getUserId() {
         return userId;
@@ -198,5 +195,44 @@ public class UsersEntity {
 
     public void setUserCity(String userCity) {
         this.userCity = userCity;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(rolesByRoleId.getRoleName());
+        List<SimpleGrantedAuthority> simpleGrantedAuthoritiesList = new ArrayList<>();
+        simpleGrantedAuthoritiesList.add(simpleGrantedAuthority);
+        return simpleGrantedAuthoritiesList;
+    }
+
+    @Override
+    public String getPassword() {
+        return userPassword;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

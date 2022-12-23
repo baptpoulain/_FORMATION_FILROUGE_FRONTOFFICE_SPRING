@@ -1,9 +1,6 @@
 package com.example.FilRougeFrontOffice.controller.dto;
 
-import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
-
-public class UserDto {
-
+public class SignupRequest {
 
     private int userId;
 
@@ -20,42 +17,28 @@ public class UserDto {
 
     private String userCity;
 
-    private Byte isActive;
+    private Byte isActive = 0;
 
-    private int roleId;
+    private int roleId = 1;
 
-    public Byte getIsActive() {
-        return isActive;
+    public SignupRequest() {
     }
 
-    public void setIsActive(Byte isActive) {
-        this.isActive = isActive;
+    public int getUserId() {
+        return userId;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public String getName() {
+        return name;
     }
 
-    public UserDto() {
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public static UserDto from(UsersEntity userEntity){
-        UserDto dto = new UserDto();
-        dto.setUserName(userEntity.getUserName());
-        dto.setUserFirstname(userEntity.getUserFirstname());
-        dto.setUserPassword(userEntity.getUserPassword());
-        dto.setUserEmail(userEntity.getUserEmail());
-        dto.setIsActive(userEntity.getIsActive());
-        dto.setRoleId(userEntity.getRoleId());
-        dto.setUserPicture(userEntity.getUserPicture());
-        dto.setUserCity(userEntity.getUserCity());
-        return dto;
-    }
-
 
     public String getUserName() {
         return userName;
@@ -103,13 +86,5 @@ public class UserDto {
 
     public void setUserCity(String userCity) {
         this.userCity = userCity;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }
