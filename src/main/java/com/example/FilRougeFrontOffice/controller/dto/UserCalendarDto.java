@@ -2,12 +2,9 @@ package com.example.FilRougeFrontOffice.controller.dto;
 
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 
-public class UserDto {
-
+public class UserCalendarDto {
 
     private int userId;
-
-    private String name;
     private String userName;
 
     private String userFirstname;
@@ -23,27 +20,17 @@ public class UserDto {
 
     private int roleId;
 
+    private int calendarId;
+
     public Byte getIsActive() {
         return isActive;
     }
 
-    public void setIsActive(Byte isActive) {
-        this.isActive = isActive;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
-    public UserDto() {
+    public UserCalendarDto() {
     }
     //todo modif pour l'email et le password
-    public static UserDto from(UsersEntity userEntity){
-        UserDto dto = new UserDto();
+    public static UserCalendarDto from(UsersEntity userEntity){
+        UserCalendarDto dto = new UserCalendarDto();
         dto.setUserName(userEntity.getUserName());
         dto.setUserFirstname(userEntity.getUserFirstname());
         dto.setIsActive(userEntity.getIsActive());
@@ -51,6 +38,15 @@ public class UserDto {
         dto.setUserPicture(userEntity.getUserPicture());
         dto.setUserCity(userEntity.getUserCity());
         return dto;
+    }
+
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -101,11 +97,23 @@ public class UserDto {
         this.userCity = userCity;
     }
 
-    public int getUserId() {
-        return userId;
+    public void setIsActive(Byte isActive) {
+        this.isActive = isActive;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    public int getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(int calendarId) {
+        this.calendarId = calendarId;
     }
 }

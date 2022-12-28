@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpClient;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -32,5 +33,19 @@ public class PlanningRestController {
      }
  }
 
+ @GetMapping("/planning/{id}")
+ public ResponseEntity<PlanningDto> getPlanning(@PathVariable("id") int id) {
+     try {
+         Optional<PlanningsEntity> planning = planningService.getPlanning(id);
+         if (planning.isPresent()) {
+             PlanningDto planningDto = new PlanningDto(planning.get().getPlanningId(), planning.get().getPlanningTitle(),planning.get().getPlanningDescription(), planning.get().getPlanningCreatedAt(), planning.get().getEventsByPlanningId());
+             return ResponseEntity.status(HttpStatus.OK).body(planningDto);
+         } else {
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         }
+     } catch (Exception e) {
+         return ResponseEntity.noContent().build();
+     }
+ }
 
 }

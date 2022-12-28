@@ -1,5 +1,9 @@
 package com.example.FilRougeFrontOffice.security.jwt;
 
+import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
+
+import java.util.Collection;
+
 public class JwtResponse {
 
     private int userId;
@@ -20,6 +24,7 @@ public class JwtResponse {
 
     private String token;
 
+    private Collection<PlanningsEntity> planningsByUserId;
     public int getUserId() {
         return userId;
     }
@@ -76,7 +81,7 @@ public class JwtResponse {
         UserCity = userCity;
     }
 
-    public JwtResponse(int userId, String username, String userFirstname, String userEmail, String userPicture, Byte isActive, int roldeId, String userCity, String token) {
+    public JwtResponse(int userId, String username, String userFirstname, String userEmail, String userPicture, Byte isActive, int roldeId, String userCity, Collection<PlanningsEntity> planningsByUserId, String token) {
         this.userId = userId;
         this.username = username;
         this.userFirstname = userFirstname;
@@ -86,6 +91,7 @@ public class JwtResponse {
         this.roldeId = roldeId;
         this.UserCity = userCity;
         this.token = token;
+        this.planningsByUserId = planningsByUserId;
     }
 
     public String getUsername() {
@@ -102,6 +108,14 @@ public class JwtResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public Collection<PlanningsEntity> getPlanningsByUserId() {
+        return planningsByUserId;
+    }
+
+    public void setPlanningsByUserId(Collection<PlanningsEntity> planningsByUserId) {
+        this.planningsByUserId = planningsByUserId;
     }
 }
 

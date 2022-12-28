@@ -67,8 +67,9 @@ public class AuthController {
                     connectedUser.getIsActive(),
                     connectedUser.getRoleId(),
                     connectedUser.getUserCity(),
+                    connectedUser.getPlanningsByUserId().stream().toList(),
                     generatedToken);
-
+//todo planning
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(jwtResponse);

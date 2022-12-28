@@ -31,6 +31,18 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.OK).body(userList);
     }
 
+    @GetMapping("users/{id}")
+    //todo : Modification UserDto to send
+    public ResponseEntity<UsersEntity> getUser(@PathVariable("id") int id){
+        Optional<UsersEntity> userData = userService.findById(id);
+        if(userData.isPresent()){
+            UserDto userDataToSend = UserDto.from(userData.get());
+            return ResponseEntity.status(HttpStatus.OK).body(userData.get());
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping("/users/{id}")
     public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestBody UserDto dto){
         Optional<UsersEntity> userData = userService.findById(id);

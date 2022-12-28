@@ -5,6 +5,8 @@ import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PlanningService {
 
@@ -14,5 +16,9 @@ public class PlanningService {
 
     public void createPlanning(PlanningsEntity planning) {
         planningRepository.save(planning);
+    }
+
+    public Optional<PlanningsEntity> getPlanning(int id){
+       return planningRepository.findById(id);
     }
 }
