@@ -17,7 +17,6 @@ public class UserDto {
     private String userPassword;
 
     private String UserPicture;
-
     private String userCity;
 
     private Byte isActive;
@@ -55,7 +54,6 @@ public class UserDto {
         dto.setUserCity(userEntity.getUserCity());
         return dto;
     }
-
 
     public String getUserName() {
         return userName;
