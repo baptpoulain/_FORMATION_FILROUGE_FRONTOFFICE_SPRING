@@ -1,5 +1,6 @@
 package com.example.FilRougeFrontOffice.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,6 +49,7 @@ public class UsersEntity implements UserDetails {
     @OneToMany(mappedBy = "usersByUserId" , cascade = {CascadeType.REMOVE})
     private Collection<PlanningsEntity> planningsByUserId;
     @ManyToOne (fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false)
     private RolesEntity rolesByRoleId;
 

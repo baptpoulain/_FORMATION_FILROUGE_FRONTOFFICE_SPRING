@@ -1,5 +1,6 @@
 package com.example.FilRougeFrontOffice.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -25,12 +26,26 @@ public class PlanningsEntity {
     @Column(name = "user_id")
     private int userId;
     @OneToMany(mappedBy = "planningsByPlanningId")
+    @JsonIgnore
     private Collection<EventsEntity> eventsByPlanningId;
     @OneToMany(mappedBy = "planningsByPlanningId")
+    @JsonIgnore
     private Collection<InteractEntity> interactsByPlanningId;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
     private UsersEntity usersByUserId;
+
+
+    public PlanningsEntity(String planningTitle, String planningDescription, Date planningCreatedAt) {
+        this.planningTitle = planningTitle;
+        this.planningDescription = planningDescription;
+        this.planningCreatedAt = planningCreatedAt;
+    }
+
+    public PlanningsEntity() {
+
+    }
 
     public int getPlanningId() {
         return planningId;

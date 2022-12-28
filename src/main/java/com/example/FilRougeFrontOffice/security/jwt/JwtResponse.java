@@ -2,13 +2,11 @@ package com.example.FilRougeFrontOffice.security.jwt;
 
 public class JwtResponse {
 
-    private int uderId;
+    private int userId;
 
     private String username;
 
     private String userFirstname;
-
-    private String userPassword;
 
     private String userEmail;
 
@@ -20,15 +18,14 @@ public class JwtResponse {
 
     private String UserCity;
 
-
     private String token;
 
-    public int getUderId() {
-        return uderId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUderId(int uderId) {
-        this.uderId = uderId;
+    public void setUserId(int uderId) {
+        this.userId = uderId;
     }
 
     public String getUserFirstname() {
@@ -37,14 +34,6 @@ public class JwtResponse {
 
     public void setUserFirstname(String userFirstname) {
         this.userFirstname = userFirstname;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
     }
 
     public String getUserEmail() {
@@ -87,8 +76,8 @@ public class JwtResponse {
         UserCity = userCity;
     }
 
-    public JwtResponse(int uderId, String username, String userFirstname, String userEmail, String userPicture, Byte isActive, int roldeId, String userCity, String token) {
-        this.uderId = uderId;
+    public JwtResponse(int userId, String username, String userFirstname, String userEmail, String userPicture, Byte isActive, int roldeId, String userCity, String token) {
+        this.userId = userId;
         this.username = username;
         this.userFirstname = userFirstname;
         this.userEmail = userEmail;

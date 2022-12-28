@@ -4,14 +4,10 @@ import com.example.FilRougeFrontOffice.controller.dto.SignupRequest;
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
 import com.example.FilRougeFrontOffice.exception.UserAlreadyExistException;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
-import com.example.FilRougeFrontOffice.repository.entity.InteractEntity;
-import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
-import com.example.FilRougeFrontOffice.repository.entity.RolesEntity;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +26,9 @@ public class UserService {
     public void signup(SignupRequest userDto) throws UserAlreadyExistException {
         Optional<UsersEntity> userOptional = userRepository.findByuserEmail(userDto.getUserEmail());
 
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             throw new UserAlreadyExistException((userDto.getUserName()));
-        }else{
+        } else {
             UsersEntity newUser = new UsersEntity(
                     userDto.getUserName(),
                     userDto.getUserFirstname(),
@@ -55,4 +51,16 @@ public class UserService {
                 .map(u -> UserDto.from(u))
                 .collect(Collectors.toList());
     }
+
+    public Optional<UsersEntity> findById(int id) {
+        return userRepository.findById(id);
+    }
+    public void updUser(UsersEntity userData, UserDto dto) {
+        userData.setUserName(dto.getUserName());
+        userData.setUserFirstname(dto.getUserFirstname());
+        userData.setUserCity(dto.getUserCity());
+        userData.setUserPicture(dto.getUserPicture());
+        userRepository.save(userData);
+    }
 }
+

@@ -17,9 +17,9 @@ public class SignupRequest {
 
     private String userCity;
 
-    private Byte isActive = 0;
+    private Byte isActive;
 
-    private int roleId = 1;
+    private int roleId;
 
     public SignupRequest() {
     }
