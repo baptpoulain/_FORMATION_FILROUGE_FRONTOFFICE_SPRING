@@ -6,75 +6,63 @@ import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import java.util.Date;
 
 public class EventDto {
+//todo pour pouvoir bien recuperer sur fullcalendar
+    private int id;
 
-    private int eventId;
+    private String title;
 
-    private String eventName;
+    private Date start;
 
-    private String eventDescription;
-
-    private Date eventStartDate;
-
-    private Date eventEndDate;
+    private Date end;
 
     public EventDto() {
     }
 
     public EventDto(int eventId, String eventName, String eventDescription, Date eventStartDate, Date eventEndDate) {
-        this.eventId = eventId;
-        this.eventName = eventName;
-        this.eventDescription = eventDescription;
-        this.eventStartDate = eventStartDate;
-        this.eventEndDate = eventEndDate;
+        this.id = eventId;
+        this.title = eventName;
+        this.start = eventStartDate;
+        this.end = eventEndDate;
     }
 
-    public static EventDto from(EventsEntity eventsEntity){
+    public static EventDto from(EventsEntity eventsEntity) {
         EventDto dto = new EventDto();
-        dto.setEventId(eventsEntity.getEventId());
-        dto.setEventDescription(eventsEntity.getEventDescription());
-        dto.setEventName(eventsEntity.getEventName());
-        dto.setEventEndDate(eventsEntity.getEventEndDate());
-        dto.setEventStartDate(eventsEntity.getEventStartDate());
+        dto.setId(eventsEntity.getEventId());
+        dto.setTitle(eventsEntity.getEventName());
+        dto.setEnd(eventsEntity.getEventEndDate());
+        dto.setStart(eventsEntity.getEventStartDate());
         return dto;
     }
 
-    public int getEventId() {
-        return eventId;
+    public int getId() {
+        return id;
     }
 
-    public void setEventId(int eventId) {
-        this.eventId = eventId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getTitle() {
+        return title;
     }
 
-    public void setEventName(String eventName) {
-        this.eventName = eventName;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getEventDescription() {
-        return eventDescription;
+    public Date getStart() {
+        return start;
     }
 
-    public void setEventDescription(String eventDescription) {
-        this.eventDescription = eventDescription;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public Date getEventStartDate() {
-        return eventStartDate;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setEventStartDate(Date eventStartDate) {
-        this.eventStartDate = eventStartDate;
-    }
-
-    public Date getEventEndDate() {
-        return eventEndDate;
-    }
-
-    public void setEventEndDate(Date eventEndDate) {
-        this.eventEndDate = eventEndDate;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 }
