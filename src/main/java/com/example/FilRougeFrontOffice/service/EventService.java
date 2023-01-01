@@ -11,7 +11,12 @@ public class EventService {
     EventRepository eventRepository;
 
 
-    public void addEvent(EventsEntity event) {
+    public EventsEntity addEvent(EventsEntity event) {
         eventRepository.save(event);
+        return event;
+    }
+
+    public void deleteEvent(int eventId) {
+        eventRepository.deleteById(eventId);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
+import com.example.FilRougeFrontOffice.controller.dto.EventDto;
 import com.example.FilRougeFrontOffice.repository.EventRepository;
 import com.example.FilRougeFrontOffice.repository.PlanningRepository;
 import com.example.FilRougeFrontOffice.repository.entity.EventsEntity;
@@ -22,13 +23,25 @@ public class EventController {
     EventRepository eventRepository;
 
     @PostMapping("event")
-    public ResponseEntity<EventsEntity> createEvent(@RequestBody EventsEntity event){
+    public ResponseEntity<EventDto> createEvent(@RequestBody EventsEntity event){
         try{
-            eventService.addEvent(event);
-            return  ResponseEntity.status(HttpStatus.CREATED).body(event);
+            EventsEntity eventEntityAdd = eventService.addEvent(event);
+            EventDto eventToSend = EventDto.from(eventEntityAdd);
+            return  ResponseEntity.status(HttpStatus.CREATED).body(eventToSend);
 
         }catch (Exception e) {
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @DeleteMapping("event/{id}")
+    public ResponseEntity<?> deleteEvent(@PathVariable("id") int id){
+        try{
+        eventService.deleteEvent(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
     }
 }

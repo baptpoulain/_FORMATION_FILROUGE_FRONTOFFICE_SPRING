@@ -44,10 +44,12 @@ public class UserDto {
     //todo modif pour l'email et le password
     public static UserDto from(UsersEntity userEntity){
         UserDto dto = new UserDto();
+        dto.setUserId(userEntity.getUserId());
         dto.setUserName(userEntity.getUserName());
         dto.setUserFirstname(userEntity.getUserFirstname());
         dto.setIsActive(userEntity.getIsActive());
         dto.setRoleId(userEntity.getRoleId());
+        dto.setUserEmail(userEntity.getUserEmail());
         dto.setUserPicture(userEntity.getUserPicture());
         dto.setUserCity(userEntity.getUserCity());
         return dto;
