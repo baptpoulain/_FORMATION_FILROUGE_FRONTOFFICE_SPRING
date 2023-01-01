@@ -1,15 +1,18 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
-import com.example.FilRougeFrontOffice.controller.dto.EventDto;
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
-import com.example.FilRougeFrontOffice.repository.entity.EventsEntity;
 import com.example.FilRougeFrontOffice.repository.entity.InteractEntity;
+import com.example.FilRougeFrontOffice.repository.entity.InteractEntityDto;
+import com.example.FilRougeFrontOffice.repository.entity.InteractEntityDtoByPlanning;
 import com.example.FilRougeFrontOffice.repository.entity.InteractEntityPK;
 import com.example.FilRougeFrontOffice.service.InteractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -32,12 +35,21 @@ public class InteractController {
         }
     }
 
-    @GetMapping("interact/{id}")
+    @GetMapping("interact/user/{id}")
     public ResponseEntity<?> findInteractionByUserId(@PathVariable("id") int id){
         try{
-            interactService.findById(id);
-            return  ResponseEntity.status(HttpStatus.CREATED).build();
+            List<InteractEntityDto> list = interactService.findByUserId(id);
+            return ResponseEntity.status(HttpStatus.OK).body(list);
+        }catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
 
+    @GetMapping("interact/planning/{id}")
+    public ResponseEntity<?> findInteractionByPlanningId(@PathVariable("id") int id){
+        try{
+            List<InteractEntityDtoByPlanning> list = interactService.findByPlanningId(id);
+            return ResponseEntity.status(HttpStatus.OK).body(list);
         }catch (Exception e) {
             return ResponseEntity.noContent().build();
         }

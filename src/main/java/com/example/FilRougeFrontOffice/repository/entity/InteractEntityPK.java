@@ -16,6 +16,10 @@ public class InteractEntityPK implements Serializable {
         this.userId = userId;
     }
 
+    public InteractEntityPK() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
