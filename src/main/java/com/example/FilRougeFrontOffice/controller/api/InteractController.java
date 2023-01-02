@@ -27,7 +27,6 @@ public class InteractController {
         try{
             interactService.addInteraction(interactPlanning);
             return  ResponseEntity.status(HttpStatus.CREATED).build();
-
         }catch (Exception e) {
             return ResponseEntity.noContent().build();
         }
@@ -47,6 +46,16 @@ public class InteractController {
     public ResponseEntity<?> findInteractionByPlanningId(@PathVariable("id") int id){
         try{
             List<InteractEntityDtoByPlanning> list = interactService.findByPlanningId(id);
+            return ResponseEntity.status(HttpStatus.OK).body(list);
+        }catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @GetMapping("interact/planning/{planningId}/{userId}")
+    public ResponseEntity<?> findInteractionByPlanningIdAndUserId(@PathVariable("planningId") int planningId, @PathVariable("userId") int userId){
+        try{
+            List<InteractEntityDtoByPlanning> list = interactService.findByPlanningIdAndUserId(planningId, userId);
             return ResponseEntity.status(HttpStatus.OK).body(list);
         }catch (Exception e) {
             return ResponseEntity.noContent().build();

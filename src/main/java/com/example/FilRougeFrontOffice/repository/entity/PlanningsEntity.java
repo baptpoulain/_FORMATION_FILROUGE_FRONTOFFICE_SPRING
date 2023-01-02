@@ -44,7 +44,6 @@ public class PlanningsEntity {
     }
 
     public PlanningsEntity() {
-
     }
 
     public int getPlanningId() {

@@ -14,7 +14,7 @@ import java.util.List;
 public interface InteractRepository extends CrudRepository<InteractEntity, InteractEntityPK> {
 
 
-    List<InteractEntity> findByUsersByUserId(UsersEntity usersByUserId);
+    List<InteractEntity> findByPlanningsByPlanningIdAndUsersByUserId(PlanningsEntity planningsByPlanningId,UsersEntity usersByUserId);
 
     List<InteractEntity> findByPlanningsByPlanningIdOrderByUsersByUserId(PlanningsEntity planningsByPlanningId);
 
@@ -22,7 +22,7 @@ public interface InteractRepository extends CrudRepository<InteractEntity, Inter
     List<InteractEntity>  findByUsersByUserIdGroupByPlanning(int userId);
 
 
-    @Query("select i from InteractEntity i where i.planningsByPlanningId.planningId = ?1 group by i.usersByUserId")
-    List<InteractEntity> findByPlanningsByPlanningId_PlanningId(int planningId);
+  /*  @Query("select i from InteractEntity i where i.planningsByPlanningId.planningId = ?1 group by i.usersByUserId")
+    List<InteractEntity> findByPlanningsByPlanningId_PlanningId(int planningId);*/
 
 }

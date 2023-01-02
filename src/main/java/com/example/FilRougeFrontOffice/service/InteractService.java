@@ -36,7 +36,6 @@ public class InteractService {
 
         Optional<UsersEntity> user = userRepository.findById(id);
         if(user.isPresent()) {
-       /*     List<InteractEntity> list = interactRepository.findByUsersByUserId(user.get());*/
             List<InteractEntity> list = interactRepository.findByUsersByUserIdGroupByPlanning(user.get().getUserId());
             return list.stream()
                     .map(i -> InteractEntityDto.from(i))
@@ -49,13 +48,23 @@ public class InteractService {
 
         Optional<PlanningsEntity> planning = planningRepository.findById(id);
         if(planning.isPresent()) {
-/*
-            List<InteractEntity> list = interactRepository.findByPlanningsByPlanningId_PlanningId(planning.get().getPlanningId());
-*/
             List<InteractEntity> list = interactRepository.findByPlanningsByPlanningIdOrderByUsersByUserId(planning.get());
             return list.stream()
                     .map(i -> InteractEntityDtoByPlanning.from(i))
                     .collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    public List<InteractEntityDtoByPlanning> findByPlanningIdAndUserId(int planningId, int userId){
+        Optional<PlanningsEntity> planning = planningRepository.findById(planningId);
+        Optional<UsersEntity> user = userRepository.findById(userId);
+
+        if(planning.isPresent() && user.isPresent()){
+            List<InteractEntity> list = interactRepository.findByPlanningsByPlanningIdAndUsersByUserId(planning.get(), user.get());
+                    return list.stream()
+                            .map(i -> InteractEntityDtoByPlanning.from(i))
+                            .collect(Collectors.toList());
         }
         return null;
     }

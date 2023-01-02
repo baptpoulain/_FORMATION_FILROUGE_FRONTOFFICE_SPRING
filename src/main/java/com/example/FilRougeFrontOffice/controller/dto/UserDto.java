@@ -1,6 +1,9 @@
 package com.example.FilRougeFrontOffice.controller.dto;
 
+import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
+
+import java.util.Collection;
 
 public class UserDto {
 
@@ -22,6 +25,8 @@ public class UserDto {
     private Byte isActive;
 
     private int roleId;
+
+    private Collection<PlanningsEntity> planningsByUserId;
 
     public Byte getIsActive() {
         return isActive;
@@ -52,6 +57,7 @@ public class UserDto {
         dto.setUserEmail(userEntity.getUserEmail());
         dto.setUserPicture(userEntity.getUserPicture());
         dto.setUserCity(userEntity.getUserCity());
+        dto.setPlanningsByUserId(userEntity.getPlanningsByUserId().stream().toList());
         return dto;
     }
 
@@ -109,5 +115,21 @@ public class UserDto {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Collection<PlanningsEntity> getPlanningsByUserId() {
+        return planningsByUserId;
+    }
+
+    public void setPlanningsByUserId(Collection<PlanningsEntity> planningsByUserId) {
+        this.planningsByUserId = planningsByUserId;
     }
 }

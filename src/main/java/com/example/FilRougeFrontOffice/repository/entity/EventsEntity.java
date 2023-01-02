@@ -1,5 +1,6 @@
 package com.example.FilRougeFrontOffice.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -24,17 +25,37 @@ public class EventsEntity {
     @Column(name = "event_endDate")
     private Date eventEndDate;
     @Basic
+    @JsonIgnore
     @Column(name = "category_id")
-    private int categoryId;
+    private Integer categoryId;
     @Basic
     @Column(name = "planning_id")
     private int planningId;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "category_id", referencedColumnName = "category_id", insertable = false, updatable = false)
     private CategoriesEntity categoriesByCategoryId;
     @ManyToOne
     @JoinColumn(name = "planning_id", referencedColumnName = "planning_id", insertable = false, updatable = false)
     private PlanningsEntity planningsByPlanningId;
+
+    public EventsEntity(int eventId, String eventName, String eventDescription, Date eventStartDate, Date eventEndDate) {
+        this.eventId = eventId;
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+    }
+
+    public EventsEntity(String eventName, String eventDescription, Date eventStartDate, Date eventEndDate) {
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+    }
+
+    public EventsEntity() {
+    }
 
     public int getEventId() {
         return eventId;
@@ -76,11 +97,11 @@ public class EventsEntity {
         this.eventEndDate = eventEndDate;
     }
 
-    public int getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 

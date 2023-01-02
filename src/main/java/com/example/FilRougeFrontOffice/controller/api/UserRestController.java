@@ -32,12 +32,11 @@ public class UserRestController {
     }
 
     @GetMapping("users/{id}")
-    //todo : Modification UserDto to send
-    public ResponseEntity<UsersEntity> getUser(@PathVariable("id") int id){
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") int id){
         Optional<UsersEntity> userData = userService.findById(id);
         if(userData.isPresent()){
             UserDto userDataToSend = UserDto.from(userData.get());
-            return ResponseEntity.status(HttpStatus.OK).body(userData.get());
+            return ResponseEntity.status(HttpStatus.OK).body(userDataToSend);
         }else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
