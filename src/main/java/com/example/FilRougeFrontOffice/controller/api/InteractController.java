@@ -1,9 +1,8 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
-import com.example.FilRougeFrontOffice.repository.entity.InteractEntity;
-import com.example.FilRougeFrontOffice.repository.entity.InteractEntityDto;
-import com.example.FilRougeFrontOffice.repository.entity.InteractEntityDtoByPlanning;
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDto;
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByPlanning;
 import com.example.FilRougeFrontOffice.repository.entity.InteractEntityPK;
 import com.example.FilRougeFrontOffice.service.InteractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")

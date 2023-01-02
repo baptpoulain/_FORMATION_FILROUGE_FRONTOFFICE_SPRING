@@ -1,5 +1,8 @@
-package com.example.FilRougeFrontOffice.repository.entity;
+package com.example.FilRougeFrontOffice.controller.dto;
 
+import com.example.FilRougeFrontOffice.repository.entity.InteractEntity;
+import com.example.FilRougeFrontOffice.repository.entity.PermissionsEntity;
+import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import lombok.Data;
 
 import java.io.Serializable;

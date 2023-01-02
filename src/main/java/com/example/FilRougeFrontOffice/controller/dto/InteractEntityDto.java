@@ -1,6 +1,8 @@
-package com.example.FilRougeFrontOffice.repository.entity;
+package com.example.FilRougeFrontOffice.controller.dto;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
+import com.example.FilRougeFrontOffice.repository.entity.InteractEntity;
+import com.example.FilRougeFrontOffice.repository.entity.PermissionsEntity;
+import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
 import lombok.Data;
 
 import java.io.Serializable;

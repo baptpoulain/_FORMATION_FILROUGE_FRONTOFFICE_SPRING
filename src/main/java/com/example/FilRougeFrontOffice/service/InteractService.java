@@ -1,5 +1,7 @@
 package com.example.FilRougeFrontOffice.service;
 
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDto;
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByPlanning;
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
 import com.example.FilRougeFrontOffice.repository.PlanningRepository;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
