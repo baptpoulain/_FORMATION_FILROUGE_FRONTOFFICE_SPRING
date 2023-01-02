@@ -1,9 +1,12 @@
 package com.example.FilRougeFrontOffice.controller.dto;
 
+import com.example.FilRougeFrontOffice.repository.entity.EventsEntity;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class PlanningDto {
 
@@ -15,13 +18,24 @@ public class PlanningDto {
 
     private Date planningCreatedAt;
 
+    private Collection<EventDto> eventsByPlanningId;
+
+    public Collection<EventDto> getEventsByPlanningId() {
+        return eventsByPlanningId;
+    }
+
+    public void setEventsByPlanningId(Collection<EventDto> eventsByPlanningId) {
+        this.eventsByPlanningId = eventsByPlanningId;
+    }
+
     public PlanningDto() {
     }
 
-    public PlanningDto(String planningTitle, String planningDescription, Date planningCreatedAt) {
+    public PlanningDto(String planningTitle, String planningDescription, Date planningCreatedAt,Collection<EventsEntity> eventsByPlanningId ) {
         this.planningTitle = planningTitle;
         this.planningDescription = planningDescription;
         this.planningCreatedAt = planningCreatedAt;
+        this.eventsByPlanningId = eventsByPlanningId.stream().map(e -> EventDto.from(e)).collect(Collectors.toList());
     }
 
     public int getPlanningId() {

@@ -44,8 +44,8 @@ public class PlanningService {
         eventRepository.save(eventData);
     }
 
-    public void delEvent(EventsEntity event) {
-        eventRepository.delete(event);
+    public void delEvent(int id) {
+        eventRepository.deleteById(id);
     }
 
     public Optional<PlanningsEntity> findPlanningByUserId(int id) {

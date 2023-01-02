@@ -27,9 +27,8 @@ public class EventsEntity {
     @Basic
     @JsonIgnore
     @Column(name = "category_id")
-    private int categoryId;
+    private Integer categoryId;
     @Basic
-    @JsonIgnore
     @Column(name = "planning_id")
     private int planningId;
     @ManyToOne
@@ -98,11 +97,11 @@ public class EventsEntity {
         this.eventEndDate = eventEndDate;
     }
 
-    public int getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
