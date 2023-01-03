@@ -22,4 +22,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Email " + userEmail + " not found"));
         return user;
     }
+
+    public UserDetails loadUserById(int id) throws UsernameNotFoundException {
+        UserDetails user = userRepository
+                .findByUserId(id)
+                .orElseThrow(() -> new UsernameNotFoundException("IdUser: " + id + " not found"));
+        return user;
+    }
+
 }

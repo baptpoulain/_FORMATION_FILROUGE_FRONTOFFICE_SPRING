@@ -62,5 +62,15 @@ public class UserService {
         userData.setUserPicture(dto.getUserPicture());
         userRepository.save(userData);
     }
+
+
+    public Boolean pwsIsGood(String userPassword, String userOlsPassword) {
+        return encoder.matches(userPassword, userOlsPassword);
+    }
+
+    public void saveUserWithNewPsw(UsersEntity usersEntity, String userNewPassword) {
+        usersEntity.setUserPassword(encoder.encode(userNewPassword));
+        userRepository.save(usersEntity);
+    }
 }
 

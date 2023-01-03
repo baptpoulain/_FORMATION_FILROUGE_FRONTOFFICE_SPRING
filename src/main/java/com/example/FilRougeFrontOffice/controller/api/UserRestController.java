@@ -1,13 +1,16 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
+import com.example.FilRougeFrontOffice.controller.dto.UserPasswordDto;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import com.example.FilRougeFrontOffice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +26,9 @@ public class UserRestController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
 
     @GetMapping("/users")
@@ -52,7 +58,24 @@ public class UserRestController {
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
 
+    @PutMapping("/users/password/{id}")
+    public ResponseEntity<UsersEntity> updatePasswordFromUser(@PathVariable("id") int id, @RequestBody UserPasswordDto pswDto){
+        Optional<UsersEntity> userData = userService.findById(id);
+        if(userData.isPresent()){
+            Boolean retour  = userService.pwsIsGood(pswDto.getUserOldPassword(), userData.get().getUserPassword());
+            if(retour){
+                userService.saveUserWithNewPsw(userData.get(), pswDto.getUserNewPassword());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>((HttpStatus.CONFLICT));
+            }
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 
