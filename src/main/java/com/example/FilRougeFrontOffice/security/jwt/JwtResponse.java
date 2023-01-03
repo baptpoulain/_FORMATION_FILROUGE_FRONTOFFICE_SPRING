@@ -8,7 +8,7 @@ public class JwtResponse {
 
     private int userId;
 
-    private String username;
+    private String userName;
 
     private String userFirstname;
 
@@ -81,9 +81,9 @@ public class JwtResponse {
         UserCity = userCity;
     }
 
-    public JwtResponse(int userId, String username, String userFirstname, String userEmail, String userPicture, Byte isActive, int roldeId, String userCity, Collection<PlanningsEntity> planningsByUserId, String token) {
+    public JwtResponse(int userId, String userName, String userFirstname, String userEmail, String userPicture, Byte isActive, int roldeId, String userCity, Collection<PlanningsEntity> planningsByUserId, String token) {
         this.userId = userId;
-        this.username = username;
+        this.userName = userName;
         this.userFirstname = userFirstname;
         this.userEmail = userEmail;
         this.userPicture = userPicture;
@@ -95,11 +95,11 @@ public class JwtResponse {
     }
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.userName = username;
     }
 
     public String getToken() {
