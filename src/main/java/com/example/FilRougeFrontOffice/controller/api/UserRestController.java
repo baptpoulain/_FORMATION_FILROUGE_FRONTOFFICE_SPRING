@@ -78,6 +78,19 @@ public class UserRestController {
         }
     }
 
+    @DeleteMapping("users/delete/{id}")
+    public ResponseEntity<UsersEntity> deleteUser(@PathVariable("id") int id){
+        Optional<UsersEntity> userData = userService.findById(id);
+        if(userData.isPresent()){
+            userService.deleteUser(userData.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
 
 
 

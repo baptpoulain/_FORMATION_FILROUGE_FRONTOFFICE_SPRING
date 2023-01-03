@@ -72,5 +72,9 @@ public class UserService {
         usersEntity.setUserPassword(encoder.encode(userNewPassword));
         userRepository.save(usersEntity);
     }
+
+    public void deleteUser(UsersEntity userData) {
+        userRepository.deleteById(userData.getUserId());
+    }
 }
 

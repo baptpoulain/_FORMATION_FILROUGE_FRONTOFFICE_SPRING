@@ -25,10 +25,10 @@ public class PlanningsEntity {
     @Basic
     @Column(name = "user_id")
     private int userId;
-    @OneToMany(mappedBy = "planningsByPlanningId")
+    @OneToMany(mappedBy = "planningsByPlanningId", cascade = {CascadeType.REMOVE})
     @JsonIgnore
     private Collection<EventsEntity> eventsByPlanningId;
-    @OneToMany(mappedBy = "planningsByPlanningId")
+    @OneToMany(mappedBy = "planningsByPlanningId", cascade = {CascadeType.REMOVE})
     @JsonIgnore
     private Collection<InteractEntity> interactsByPlanningId;
     @ManyToOne
