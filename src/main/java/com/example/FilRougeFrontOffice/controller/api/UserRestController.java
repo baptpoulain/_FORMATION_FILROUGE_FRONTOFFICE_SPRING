@@ -2,8 +2,10 @@ package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
 import com.example.FilRougeFrontOffice.controller.dto.UserPasswordDto;
+import com.example.FilRougeFrontOffice.message.ResponseMessage;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
+import com.example.FilRougeFrontOffice.service.FilesStorageService;
 import com.example.FilRougeFrontOffice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
