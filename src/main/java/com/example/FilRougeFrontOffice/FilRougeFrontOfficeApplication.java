@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySources;
 
 @SpringBootApplication
-public class FilRougeFrontOfficeApplication implements CommandLineRunner {
+public class FilRougeFrontOfficeApplication {
 
 	@Resource
 	FilesStorageService storageService;
@@ -17,11 +17,5 @@ public class FilRougeFrontOfficeApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(FilRougeFrontOfficeApplication.class, args);
 
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		storageService.deleteAll();
-		storageService.init();
 	}
 }

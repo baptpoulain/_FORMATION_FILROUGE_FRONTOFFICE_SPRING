@@ -1,10 +1,12 @@
 package com.example.FilRougeFrontOffice.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import org.springframework.core.io.Resource;
@@ -29,9 +31,12 @@ public class FilesStorageServiceImpl implements FilesStorageService{
     }
 
     @Override
-    public void save(MultipartFile file) {
+    public void save(MultipartFile file, UUID nameUuid, String mimeType) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+
+
+
+            Files.copy(file.getInputStream(), this.root.resolve(String.valueOf(nameUuid) + "." + mimeType));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }

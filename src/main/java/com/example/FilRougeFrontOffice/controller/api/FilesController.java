@@ -20,30 +20,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/")
 @CrossOrigin("http://localhost:4200")
 public class FilesController {
     @Autowired
     FilesStorageService storageService;
-
-
-    @PostMapping("/upload")
-    public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files) {
-        String message = "";
-        try {
-            List<String> fileNames = new ArrayList<>();
-
-            Arrays.asList(files).stream().forEach(file -> {
-                storageService.save(file);
-                fileNames.add(file.getOriginalFilename());
-            });
-
-            message = "Uploaded the files successfully: " + fileNames;
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
-        } catch (Exception e) {
-            message = "Fail to upload files!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
-        }
-    }
 
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {

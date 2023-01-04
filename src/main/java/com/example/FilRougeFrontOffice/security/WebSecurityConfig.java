@@ -52,6 +52,7 @@ public class WebSecurityConfig {
                     public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry requests) {
                         requests
                                 .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/files/**").permitAll()
                                 .anyRequest().authenticated();
                     }
                 });

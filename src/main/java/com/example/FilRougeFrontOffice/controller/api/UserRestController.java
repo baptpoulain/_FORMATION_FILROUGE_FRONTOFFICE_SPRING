@@ -16,10 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api")
@@ -35,6 +34,8 @@ public class UserRestController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    FilesStorageService storageService;
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> fetchUsers() {
@@ -54,7 +55,42 @@ public class UserRestController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestBody UserDto dto){
+    public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestParam("userFirstname") String userFirstname,@RequestParam("userName") String userName, @RequestParam("picture") String picture, @RequestParam("city") String city,@RequestParam("file") MultipartFile files){
+
+        UserDto userDto = new UserDto(userName,userFirstname,picture,city);
+        UUID uuid = UUID.randomUUID();
+
+        String message = "";
+        try {
+            Optional<UsersEntity> userData = userService.findById(id);
+            if(userData.isPresent()){
+
+            /*    List<String> fileNames = new ArrayList<>();*/
+
+                Arrays.asList(files).stream().forEach(file -> {
+
+                    String fileType = file.getContentType();
+                    String mimeType = fileType.replaceFirst("image/", "");
+                    storageService.save(file, uuid, mimeType);
+
+                    userDto.setUserPicture(uuid + "." + mimeType);
+                    userService.updUser(userData.get(), userDto);
+                });
+                message = "Uploaded the files successfully";
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            message = "Fail to upload files!";
+            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+
+
+
+
+/*
         Optional<UsersEntity> userData = userService.findById(id);
         if(userData.isPresent()){
             userService.updUser(userData.get(), dto);
@@ -62,7 +98,7 @@ public class UserRestController {
         }
         else{
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        }*/
     }
 
     @PutMapping("/users/password/{id}")

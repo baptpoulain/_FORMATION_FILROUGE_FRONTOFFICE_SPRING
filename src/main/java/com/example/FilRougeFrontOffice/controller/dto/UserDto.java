@@ -28,6 +28,13 @@ public class UserDto {
 
     private Collection<PlanningsEntity> planningsByUserId;
 
+    public UserDto(String userName, String userFirstname, String userPicture, String userCity) {
+        this.userName = userName;
+        this.userFirstname = userFirstname;
+        UserPicture = userPicture;
+        this.userCity = userCity;
+    }
+
     public Byte getIsActive() {
         return isActive;
     }
