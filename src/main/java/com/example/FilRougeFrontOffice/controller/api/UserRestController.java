@@ -55,7 +55,8 @@ public class UserRestController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestParam("userFirstname") String userFirstname,@RequestParam("userName") String userName, @RequestParam("picture") String picture, @RequestParam("city") String city,@RequestParam("file") MultipartFile files){
+    public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestParam("userFirstname") String userFirstname,@RequestParam("userName") String userName, @RequestParam("picture") String picture, @RequestParam("city") String city,@RequestParam("file") Optional<MultipartFile> files){
+
 
         UserDto userDto = new UserDto(userName,userFirstname,picture,city);
         UUID uuid = UUID.randomUUID();
@@ -65,17 +66,21 @@ public class UserRestController {
             Optional<UsersEntity> userData = userService.findById(id);
             if(userData.isPresent()){
 
-            /*    List<String> fileNames = new ArrayList<>();*/
+                if(files.isPresent()){
 
-                Arrays.asList(files).stream().forEach(file -> {
+                    Arrays.asList(files.get()).stream().forEach(file -> {
 
-                    String fileType = file.getContentType();
-                    String mimeType = fileType.replaceFirst("image/", "");
-                    storageService.save(file, uuid, mimeType);
+                        String fileType = file.getContentType();
+                        String mimeType = fileType.replaceFirst("image/", "");
+                        storageService.save(file, uuid, mimeType);
 
-                    userDto.setUserPicture(uuid + "." + mimeType);
+                        userDto.setUserPicture(uuid + "." + mimeType);
+                        userService.updUser(userData.get(), userDto);
+                    });
+                }else{
                     userService.updUser(userData.get(), userDto);
-                });
+                }
+
                 message = "Uploaded the files successfully";
                 return new ResponseEntity<>(HttpStatus.OK);
             }
