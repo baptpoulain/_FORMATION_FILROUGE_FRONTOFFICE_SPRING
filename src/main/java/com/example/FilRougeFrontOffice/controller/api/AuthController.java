@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Properties;
+
 @RestController
 @RequestMapping("api/auth")
 @CrossOrigin("http://localhost:4200/")
@@ -32,6 +34,8 @@ public class AuthController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    public static final Properties defaultProperties = new Properties();
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest dto){
@@ -69,6 +73,9 @@ public class AuthController {
                     connectedUser.getUserCity(),
                     connectedUser.getPlanningsByUserId().stream().toList(),
                     generatedToken);
+            defaultProperties.put("userLoginId", jwtResponse.getUserId());
+
+
 //todo planning
             return ResponseEntity
                     .status(HttpStatus.OK)
