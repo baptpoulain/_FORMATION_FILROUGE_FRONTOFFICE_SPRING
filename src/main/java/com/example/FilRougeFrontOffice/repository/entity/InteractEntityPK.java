@@ -20,6 +20,9 @@ public class InteractEntityPK implements Serializable {
 
     }
 
+    public InteractEntityPK(int userId, int planningId, int permissionId) {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

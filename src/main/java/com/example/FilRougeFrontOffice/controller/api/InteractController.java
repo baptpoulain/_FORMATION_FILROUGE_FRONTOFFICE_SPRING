@@ -64,17 +64,25 @@ public class InteractController {
             return ResponseEntity.noContent().build();
         }
     }
-    
-    @DeleteMapping("interact/planning/{userId}/{planningId}/{permissionId}")
-    public ResponseEntity<?> deleteInteractionByPlanningIdAndUserId(@PathVariable("userId") int userId,@PathVariable("planningId") int planningId, @PathVariable("permissionId") int permissionId ){
-        InteractEntityPK interactId = new InteractEntity(userId,planningId, permissionId).getId();
+
+    @GetMapping("interact/planning/{userId}/{planningId}/{permissionId}")
+    public boolean findInteractionByPlanningIdAndUserId(@PathVariable("userId") int userId, @PathVariable("planningId") int planningId, @PathVariable("permissionId") int permissionId ){
+        InteractEntityPK interactId = new InteractEntityPK(userId,planningId, permissionId);
 
         Optional<InteractEntity> interactData = interactService.findById(interactId);
         if(interactData.isPresent()){
-            interactService.deleteInteract(interactData.get());
-            return new ResponseEntity<>(HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return true;
         }
+        else {
+            return false;
+        }
+    }
+    
+    @DeleteMapping("interact/planning/{userId}/{planningId}/{permissionId}")
+    public ResponseEntity<?> deleteInteractionByPlanningIdAndUserId(@PathVariable("userId") int userId,@PathVariable("planningId") int planningId, @PathVariable("permissionId") int permissionId ){
+        InteractEntity interact = new InteractEntity(userId,planningId, permissionId);
+        interactService.deleteInteract(interact);
+        return new ResponseEntity<>(HttpStatus.OK);
+
     }
 }

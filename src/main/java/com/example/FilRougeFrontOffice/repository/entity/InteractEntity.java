@@ -26,6 +26,12 @@ public class InteractEntity implements Serializable {
         this.permissionsByPermissionId = permissionsByPermissionId;
     }
 
+    public InteractEntity(UsersEntity usersByUserId, PlanningsEntity planningsByPlanningId, PermissionsEntity permissionsByPermissionId) {
+        this.usersByUserId = usersByUserId;
+        this.planningsByPlanningId = planningsByPlanningId;
+        this.permissionsByPermissionId = permissionsByPermissionId;
+    }
+
     public InteractEntity() {
 
     }
