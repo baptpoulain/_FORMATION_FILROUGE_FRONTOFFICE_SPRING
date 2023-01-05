@@ -20,22 +20,9 @@ public class FilesStorageServiceImpl implements FilesStorageService{
 
     private final Path root = Paths.get("uploads");
 
-
-    @Override
-    public void init() {
-        try {
-            Files.createDirectory(root);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
-        }
-    }
-
     @Override
     public void save(MultipartFile file, UUID nameUuid, String mimeType) {
         try {
-
-
-
             Files.copy(file.getInputStream(), this.root.resolve(String.valueOf(nameUuid) + "." + mimeType));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
@@ -55,20 +42,6 @@ public class FilesStorageServiceImpl implements FilesStorageService{
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error: " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(root.toFile());
-    }
-
-    @Override
-    public Stream<Path> loadAll() {
-        try {
-            return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not load the files!");
         }
     }
 
