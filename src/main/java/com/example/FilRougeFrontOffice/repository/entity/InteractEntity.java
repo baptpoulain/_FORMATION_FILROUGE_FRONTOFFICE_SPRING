@@ -34,6 +34,9 @@ public class InteractEntity implements Serializable {
         this.id = id;
     }
 
+    public InteractEntity(int userId, int planningId, int permissionId) {
+    }
+
     public InteractEntityPK getId() {
         return id;
     }

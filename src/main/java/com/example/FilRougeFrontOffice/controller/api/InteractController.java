@@ -4,6 +4,7 @@ import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByUserAnd
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDto;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByPlanning;
+import com.example.FilRougeFrontOffice.repository.entity.InteractEntity;
 import com.example.FilRougeFrontOffice.repository.entity.InteractEntityPK;
 import com.example.FilRougeFrontOffice.service.InteractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -60,6 +62,19 @@ public class InteractController {
             return ResponseEntity.status(HttpStatus.OK).body(list);
         }catch (Exception e) {
             return ResponseEntity.noContent().build();
+        }
+    }
+    
+    @DeleteMapping("interact/planning/{userId}/{planningId}/{permissionId}")
+    public ResponseEntity<?> deleteInteractionByPlanningIdAndUserId(@PathVariable("userId") int userId,@PathVariable("planningId") int planningId, @PathVariable("permissionId") int permissionId ){
+        InteractEntityPK interactId = new InteractEntity(userId,planningId, permissionId).getId();
+
+        Optional<InteractEntity> interactData = interactService.findById(interactId);
+        if(interactData.isPresent()){
+            interactService.deleteInteract(interactData.get());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

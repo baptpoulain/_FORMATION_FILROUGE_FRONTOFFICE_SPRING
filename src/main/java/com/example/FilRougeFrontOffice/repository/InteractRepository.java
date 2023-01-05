@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface InteractRepository extends CrudRepository<InteractEntity, InteractEntityPK> {
@@ -24,4 +25,7 @@ public interface InteractRepository extends CrudRepository<InteractEntity, Inter
     @Query("select i from InteractEntity i where i.planningsByPlanningId.planningId = ?1 group by i.usersByUserId")
     List<InteractEntity> findByPlanningIdGroupByUserId(int planningId);
 
+    Optional<InteractEntity> findInteractEntitiesById(InteractEntityPK interact);
+
+    void deleteInteractEntitiesById(InteractEntity interactEntity);
 }

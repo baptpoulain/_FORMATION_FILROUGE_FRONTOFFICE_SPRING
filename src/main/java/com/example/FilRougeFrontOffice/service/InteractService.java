@@ -71,6 +71,14 @@ public class InteractService {
         }
         return null;
     }
+
+    public Optional<InteractEntity> findById(InteractEntityPK interactId) {
+        return interactRepository.findById(interactId);
+    }
+
+    public void deleteInteract(InteractEntity interactEntity) {
+        interactRepository.delete(interactEntity);
+    }
 }
 
 
