@@ -21,7 +21,11 @@ public class InteractEntityPK implements Serializable {
     }
 
     public InteractEntityPK(int userId, int planningId, int permissionId) {
+        this.userId = userId;
+        this.planningId = planningId;
+        this.permissionId = permissionId;
     }
+
 
     @Override
     public boolean equals(Object o) {

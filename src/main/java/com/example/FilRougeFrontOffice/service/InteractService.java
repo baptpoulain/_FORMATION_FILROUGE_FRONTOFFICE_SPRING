@@ -76,8 +76,8 @@ public class InteractService {
         return interactRepository.findById(interactId);
     }
 
-    public void deleteInteract(InteractEntity interactEntity) {
-        interactRepository.delete(interactEntity);
+    public void deleteInteract(InteractEntityPK interactEntity) {
+        interactRepository.deleteById(interactEntity);
     }
 }
 

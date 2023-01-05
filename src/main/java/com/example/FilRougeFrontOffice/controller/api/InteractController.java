@@ -80,9 +80,17 @@ public class InteractController {
     
     @DeleteMapping("interact/planning/{userId}/{planningId}/{permissionId}")
     public ResponseEntity<?> deleteInteractionByPlanningIdAndUserId(@PathVariable("userId") int userId,@PathVariable("planningId") int planningId, @PathVariable("permissionId") int permissionId ){
-        InteractEntity interact = new InteractEntity(userId,planningId, permissionId);
-        interactService.deleteInteract(interact);
-        return new ResponseEntity<>(HttpStatus.OK);
+        InteractEntityPK interact = new InteractEntityPK(userId,planningId, permissionId);
+
+        Optional<InteractEntity> interactData = interactService.findById(interact);
+        if(interactData.isPresent()){
+            interactService.deleteInteract(interact);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
     }
+
 }

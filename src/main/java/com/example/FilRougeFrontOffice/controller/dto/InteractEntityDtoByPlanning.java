@@ -24,6 +24,7 @@ public class InteractEntityDtoByPlanning implements Serializable {
         private final String userName;
         private final String userFirstname;
         private final String userPicture;
+        private final String userEmail;
     }
 
     /**
@@ -37,7 +38,7 @@ public class InteractEntityDtoByPlanning implements Serializable {
 
     public static InteractEntityDtoByPlanning from (InteractEntity interactEntity){
 
-        InteractEntityDtoByPlanning.UsersEntityDto usersEntityDto = new UsersEntityDto(interactEntity.getUsersByUserId().getUserId(), interactEntity.getUsersByUserId().getUserName(),interactEntity.getUsersByUserId().getUserFirstname(), interactEntity.getUsersByUserId().getUserPicture());
+        InteractEntityDtoByPlanning.UsersEntityDto usersEntityDto = new UsersEntityDto(interactEntity.getUsersByUserId().getUserId(), interactEntity.getUsersByUserId().getUserName(),interactEntity.getUsersByUserId().getUserFirstname(), interactEntity.getUsersByUserId().getUserPicture(), interactEntity.getUsersByUserId().getUserEmail());
         InteractEntityDtoByPlanning.PermissionsEntityDto permissionsEntityDto = new InteractEntityDtoByPlanning.PermissionsEntityDto(interactEntity.getPermissionsByPermissionId().getPermissionId(), interactEntity.getPermissionsByPermissionId().getPermissionName());
       /*  return new InteractEntityDtoByPlanning(usersEntityDto, permissionsEntityDto);*/
       /*  return new InteractEntityDtoByPlanning(permissionsEntityDto);    */
