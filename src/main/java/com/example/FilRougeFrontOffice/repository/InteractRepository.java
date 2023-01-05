@@ -21,8 +21,7 @@ public interface InteractRepository extends CrudRepository<InteractEntity, Inter
     @Query("select i from InteractEntity i where i.usersByUserId.userId = ?1 group by i.planningsByPlanningId")
     List<InteractEntity>  findByUsersByUserIdGroupByPlanning(int userId);
 
-
-  /*  @Query("select i from InteractEntity i where i.planningsByPlanningId.planningId = ?1 group by i.usersByUserId")
-    List<InteractEntity> findByPlanningsByPlanningId_PlanningId(int planningId);*/
+    @Query("select i from InteractEntity i where i.planningsByPlanningId.planningId = ?1 group by i.usersByUserId")
+    List<InteractEntity> findByPlanningIdGroupByUserId(int planningId);
 
 }

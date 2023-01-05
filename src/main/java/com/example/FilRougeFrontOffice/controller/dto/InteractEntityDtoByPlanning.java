@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 public class InteractEntityDtoByPlanning implements Serializable {
     private final UsersEntityDto usersByUserId;
-    private final PermissionsEntityDto permissionsByPermissionId;
+   /* private final PermissionsEntityDto permissionsByPermissionId;*/
 
     /**
      * A DTO for the {@link UsersEntity} entity
@@ -36,11 +36,12 @@ public class InteractEntityDtoByPlanning implements Serializable {
     }
 
     public static InteractEntityDtoByPlanning from (InteractEntity interactEntity){
+
         InteractEntityDtoByPlanning.UsersEntityDto usersEntityDto = new UsersEntityDto(interactEntity.getUsersByUserId().getUserId(), interactEntity.getUsersByUserId().getUserName(),interactEntity.getUsersByUserId().getUserFirstname(), interactEntity.getUsersByUserId().getUserPicture());
-
         InteractEntityDtoByPlanning.PermissionsEntityDto permissionsEntityDto = new InteractEntityDtoByPlanning.PermissionsEntityDto(interactEntity.getPermissionsByPermissionId().getPermissionId(), interactEntity.getPermissionsByPermissionId().getPermissionName());
-
-        return new InteractEntityDtoByPlanning(usersEntityDto, permissionsEntityDto);
+      /*  return new InteractEntityDtoByPlanning(usersEntityDto, permissionsEntityDto);*/
+      /*  return new InteractEntityDtoByPlanning(permissionsEntityDto);    */
+        return new InteractEntityDtoByPlanning(usersEntityDto);
     }
 
 }

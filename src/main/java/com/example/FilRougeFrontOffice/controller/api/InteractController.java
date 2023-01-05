@@ -1,5 +1,6 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByUserAndPermission;
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDto;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByPlanning;
@@ -55,7 +56,7 @@ public class InteractController {
     @GetMapping("interact/planning/{planningId}/{userId}")
     public ResponseEntity<?> findInteractionByPlanningIdAndUserId(@PathVariable("planningId") int planningId, @PathVariable("userId") int userId){
         try{
-            List<InteractEntityDtoByPlanning> list = interactService.findByPlanningIdAndUserId(planningId, userId);
+            List<InteractEntityDtoByUserAndPermission> list = interactService.findByPlanningIdAndUserId(planningId, userId);
             return ResponseEntity.status(HttpStatus.OK).body(list);
         }catch (Exception e) {
             return ResponseEntity.noContent().build();

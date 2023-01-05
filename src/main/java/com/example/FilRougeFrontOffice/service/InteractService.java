@@ -2,6 +2,7 @@ package com.example.FilRougeFrontOffice.service;
 
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDto;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByPlanning;
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByUserAndPermission;
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
 import com.example.FilRougeFrontOffice.repository.PlanningRepository;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
@@ -37,6 +38,7 @@ public class InteractService {
         Optional<UsersEntity> user = userRepository.findById(id);
         if(user.isPresent()) {
             List<InteractEntity> list = interactRepository.findByUsersByUserIdGroupByPlanning(user.get().getUserId());
+    /*        List<InteractEntity> list = interactRepository.findByPlanningsByPlanningIdGroupByUsersByUserId(planning.get());*/
             return list.stream()
                     .map(i -> InteractEntityDto.from(i))
                     .collect(Collectors.toList());
@@ -48,7 +50,8 @@ public class InteractService {
 
         Optional<PlanningsEntity> planning = planningRepository.findById(id);
         if(planning.isPresent()) {
-            List<InteractEntity> list = interactRepository.findByPlanningsByPlanningIdOrderByUsersByUserId(planning.get());
+          /*  List<InteractEntity> list = interactRepository.findByPlanningsByPlanningIdOrderByUsersByUserId(planning.get());*/
+              List<InteractEntity> list = interactRepository.findByPlanningIdGroupByUserId(planning.get().getPlanningId());
             return list.stream()
                     .map(i -> InteractEntityDtoByPlanning.from(i))
                     .collect(Collectors.toList());
@@ -56,14 +59,14 @@ public class InteractService {
         return null;
     }
 
-    public List<InteractEntityDtoByPlanning> findByPlanningIdAndUserId(int planningId, int userId){
+    public List<InteractEntityDtoByUserAndPermission> findByPlanningIdAndUserId(int planningId, int userId){
         Optional<PlanningsEntity> planning = planningRepository.findById(planningId);
         Optional<UsersEntity> user = userRepository.findById(userId);
 
         if(planning.isPresent() && user.isPresent()){
             List<InteractEntity> list = interactRepository.findByPlanningsByPlanningIdAndUsersByUserId(planning.get(), user.get());
                     return list.stream()
-                            .map(i -> InteractEntityDtoByPlanning.from(i))
+                            .map(i -> InteractEntityDtoByUserAndPermission.from(i))
                             .collect(Collectors.toList());
         }
         return null;
