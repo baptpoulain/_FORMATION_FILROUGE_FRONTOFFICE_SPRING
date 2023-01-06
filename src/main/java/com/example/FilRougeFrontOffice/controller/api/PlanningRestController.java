@@ -30,45 +30,61 @@ public class PlanningRestController {
 
 
     @GetMapping("user/{id}/planning")
-    public ResponseEntity<PlanningDto> findPlanningFromUser(@PathVariable int id){
+    public ResponseEntity<PlanningDto> findPlanningFromUser(@PathVariable int id) {
         Optional<PlanningsEntity> planningFromUser = planningService.findPlanningByUserId(id);
-        if(planningFromUser.isPresent()){
+        if (planningFromUser.isPresent()) {
             PlanningDto dto = new PlanningDto(
                     planningFromUser.get().getPlanningId(),
                     planningFromUser.get().getPlanningTitle(),
                     planningFromUser.get().getPlanningDescription(),
                     planningFromUser.get().getPlanningCreatedAt(),
                     planningFromUser.get().getEventsByPlanningId()
-                    );
+            );
             return ResponseEntity.status(HttpStatus.OK).body(dto);
-        }else{
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
- @PostMapping("/planning")
-    public ResponseEntity<PlanningsEntity> createPlanning(@RequestBody PlanningsEntity planning){
-     try {
-         Optional<UsersEntity> userBelongThisPlanning = userService.findById(planning.getUserId());
 
-         if(userBelongThisPlanning.isPresent() ){
-             planning.setUsersByUserId(userBelongThisPlanning.get());
-         }else{
-             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-         }
+    @PostMapping("/planning")
+    public ResponseEntity<PlanningsEntity> createPlanning(@RequestBody PlanningsEntity planning) {
+        try {
+            Optional<UsersEntity> userBelongThisPlanning = userService.findById(planning.getUserId());
 
-         Optional<PlanningsEntity> planningFromUser = planningService.findPlanningByUserId(planning.getUserId());
+            if (userBelongThisPlanning.isPresent()) {
+                planning.setUsersByUserId(userBelongThisPlanning.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
 
-         if(planningFromUser.isPresent()){
-             return ResponseEntity.status(HttpStatus.CONFLICT).build();
-         } else{
-             planningService.createPlanning(planning);
-             return ResponseEntity.status(HttpStatus.CREATED).build();
-         }
-     }catch (Exception e){
-         return ResponseEntity.noContent().build();
-     }
- }
+            Optional<PlanningsEntity> planningFromUser = planningService.findPlanningByUserId(planning.getUserId());
+
+            if (planningFromUser.isPresent()) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            } else {
+                planningService.createPlanning(planning);
+                return ResponseEntity.status(HttpStatus.CREATED).build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @PutMapping("planning/{id}")
+    public ResponseEntity<PlanningsEntity> updatePlanning(@PathVariable int id, @RequestBody PlanningDto planningDto) {
+        Optional<PlanningsEntity> planningData = planningService.findPlanningById(id);
+
+        if (planningData.isPresent()) {
+            planningService.updPlanning(planningData.get(), planningDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
 
 
  @GetMapping("/planning/{id}")
