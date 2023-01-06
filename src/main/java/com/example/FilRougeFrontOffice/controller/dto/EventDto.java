@@ -13,6 +13,9 @@ public class EventDto {
 
     private int id;
     private String title;
+
+
+    private String description;
     private LocalDateTime start;
     private LocalDateTime end;
 
@@ -20,11 +23,12 @@ public class EventDto {
     }
 
 
-     public EventDto(int eventId, String eventName, String eventDescription, LocalDateTime eventStartDate, LocalDateTime eventEndDate) {
+     public EventDto(int eventId, String eventName, String eventDescription, LocalDateTime eventStartDate, LocalDateTime eventEndDate, String description) {
         this.id = eventId;
         this.title = eventName;
         this.start = eventStartDate;
         this.end = eventEndDate;
+        this.description = description;
     }
 
 
@@ -34,6 +38,7 @@ public class EventDto {
         dto.setTitle(eventsEntity.getEventName());
         dto.setStart(eventsEntity.getEventStartDate());
         dto.setEnd(eventsEntity.getEventEndDate());
+        dto.setDescription(eventsEntity.getEventDescription());
         return dto;
     }
 
@@ -61,6 +66,13 @@ public class EventDto {
         this.start = start;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
     public LocalDateTime getEnd() {
         return end;
     }
