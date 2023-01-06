@@ -1,5 +1,6 @@
 package com.example.FilRougeFrontOffice.service;
 
+import com.example.FilRougeFrontOffice.controller.dto.PlanningDto;
 import com.example.FilRougeFrontOffice.repository.EventRepository;
 import com.example.FilRougeFrontOffice.repository.PlanningRepository;
 import com.example.FilRougeFrontOffice.repository.entity.EventsEntity;
@@ -55,5 +56,11 @@ public class PlanningService {
 
     public Optional<PlanningsEntity> findPlanningByUserId(int id) {
         return planningRepository.findPlanningsEntityByUserId(id);
+    }
+
+    public void updPlanning(PlanningsEntity planningData, PlanningDto planningDto) {
+        planningData.setPlanningTitle(planningDto.getPlanningTitle());
+        planningData.setPlanningDescription(planningDto.getPlanningDescription());
+        planningRepository.save(planningData);
     }
 }
