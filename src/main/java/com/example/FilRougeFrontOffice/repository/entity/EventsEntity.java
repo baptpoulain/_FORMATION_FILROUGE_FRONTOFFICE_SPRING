@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events", schema = "bdd_fil_rouge")
@@ -20,10 +21,10 @@ public class EventsEntity {
     private String eventDescription;
     @Basic
     @Column(name = "event_startDate")
-    private Date eventStartDate;
+    private LocalDateTime eventStartDate;
     @Basic
     @Column(name = "event_endDate")
-    private Date eventEndDate;
+    private LocalDateTime eventEndDate;
     @Basic
     @JsonIgnore
     @Column(name = "category_id")
@@ -39,7 +40,7 @@ public class EventsEntity {
     @JoinColumn(name = "planning_id", referencedColumnName = "planning_id", insertable = false, updatable = false)
     private PlanningsEntity planningsByPlanningId;
 
-    public EventsEntity(int eventId, String eventName, String eventDescription, Date eventStartDate, Date eventEndDate) {
+    public EventsEntity(int eventId, String eventName, String eventDescription, LocalDateTime eventStartDate, LocalDateTime eventEndDate) {
         this.eventId = eventId;
         this.eventName = eventName;
         this.eventDescription = eventDescription;
@@ -47,7 +48,7 @@ public class EventsEntity {
         this.eventEndDate = eventEndDate;
     }
 
-    public EventsEntity(String eventName, String eventDescription, Date eventStartDate, Date eventEndDate) {
+    public EventsEntity(String eventName, String eventDescription, LocalDateTime eventStartDate, LocalDateTime eventEndDate) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.eventStartDate = eventStartDate;
@@ -81,19 +82,19 @@ public class EventsEntity {
         this.eventDescription = eventDescription;
     }
 
-    public Date getEventStartDate() {
+    public LocalDateTime getEventStartDate() {
         return eventStartDate;
     }
 
-    public void setEventStartDate(Date eventStartDate) {
+    public void setEventStartDate(LocalDateTime eventStartDate) {
         this.eventStartDate = eventStartDate;
     }
 
-    public Date getEventEndDate() {
+    public LocalDateTime getEventEndDate() {
         return eventEndDate;
     }
 
-    public void setEventEndDate(Date eventEndDate) {
+    public void setEventEndDate(LocalDateTime eventEndDate) {
         this.eventEndDate = eventEndDate;
     }
 

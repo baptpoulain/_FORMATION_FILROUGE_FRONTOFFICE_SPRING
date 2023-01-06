@@ -28,6 +28,7 @@ public class PlanningRestController {
     @Autowired
     UserService userService;
 
+
     @GetMapping("user/{id}/planning")
     public ResponseEntity<PlanningDto> findPlanningFromUser(@PathVariable int id){
         Optional<PlanningsEntity> planningFromUser = planningService.findPlanningByUserId(id);
@@ -102,15 +103,24 @@ public class PlanningRestController {
      }
  }
 
- @PutMapping("/planning/event")
-    public ResponseEntity<EventsEntity> updateEventInPlanning(@RequestBody EventsEntity eventsEntity){
+ @PutMapping("/planning/event/{id}")
+/*    public ResponseEntity<EventsEntity> updateEventInPlanning(@RequestBody EventsEntity eventsEntity){
      Optional<List<EventsEntity>> eventData = planningService.findEventListByPlanningId(eventsEntity.getPlanningId());
      if(eventData.isPresent()){
          planningService.updEvent(eventData.get().stream().filter(event-> event.getEventId() == eventsEntity.getEventId()).collect(Collectors.toList()).get(0), eventsEntity);
          return new ResponseEntity<>(HttpStatus.OK);
      } else{
          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-     }
+     }*/
+     public ResponseEntity<EventDto> updateEventInPlanning(@PathVariable int id, @RequestBody EventsEntity eventsEntity){
+         Optional<EventsEntity> event = planningService.findEventById(id);
+         if(event.isPresent()){
+             EventsEntity eventEntityUpdate = planningService.updEvent(event.get(), eventsEntity);
+             EventDto eventToSend = EventDto.from(eventEntityUpdate);
+             return ResponseEntity.status(HttpStatus.CREATED).body(eventToSend);
+         } else{
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         }
  }
 
  @DeleteMapping("/planning/event/{id}")

@@ -37,12 +37,16 @@ public class PlanningService {
         return planningRepository.findById(id);
     }
 
-    public void updEvent(EventsEntity eventData, EventsEntity event) {
+    public Optional<EventsEntity> findEventById(int id) {
+       return eventRepository.findById(id);
+    }
+
+    public EventsEntity updEvent(EventsEntity eventData, EventsEntity event) {
         eventData.setEventName(event.getEventName());
         eventData.setEventDescription(event.getEventDescription());
         eventData.setEventStartDate(event.getEventStartDate());
         eventData.setEventEndDate(event.getEventEndDate());
-        eventRepository.save(eventData);
+        return eventRepository.save(eventData);
     }
 
     public void delEvent(int id) {
