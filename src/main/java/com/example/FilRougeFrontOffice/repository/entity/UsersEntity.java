@@ -69,6 +69,13 @@ public class UsersEntity implements UserDetails {
 
     }
 
+    public UsersEntity( String userName, String userFirstname, String userPicture, String userCity) {
+        this.userName = userName;
+        this.userFirstname = userFirstname;
+        this.userPicture = userPicture;
+        this.userCity = userCity;
+    }
+
 
     public int getUserId() {
         return userId;
