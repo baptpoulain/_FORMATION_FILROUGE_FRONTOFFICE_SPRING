@@ -2,21 +2,20 @@ package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
+
 import com.example.FilRougeFrontOffice.security.jwt.JwtUtils;
 import com.example.FilRougeFrontOffice.service.FilesStorageService;
 import com.example.FilRougeFrontOffice.service.UserService;
-import org.junit.Before;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.web.WebAppConfiguration;
+
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserRestController.class)
+
 
 class UserRestControllerTest {
     @Autowired
@@ -63,3 +63,30 @@ void when_fetchUsers_then_returnAllUsers() throws Exception {
             .andDo(print());
 }
 }
+
+//    @Test
+//    void when_getUserById__then__returnUserAnd200() throws Exception {
+//        //given
+//        int idUser = 1;
+//        UsersEntity user = new UsersEntity(
+//                                "Poulain",
+//                                "Baptiste",
+//                                "none",
+//                                "Rouen");
+//        user.setUserId(idUser);
+//
+//        //when
+//        when(userService.findById(idUser)).thenReturn(Optional.of(user));
+//        UserDto userDataToSend = UserDto.from(user);
+//        //then
+//        mockMvc.perform(get("/api/users/{id}", idUser))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.userId").value(idUser))
+//                .andExpect(jsonPath("$.userName").value(userDataToSend.getUserName()))
+//                .andExpect(jsonPath("$.userFirstname").value(userDataToSend.getUserFirstname()))
+//                .andExpect(jsonPath("$.userPicture").value(userDataToSend.getUserPicture()))
+//                .andExpect(jsonPath("$.userCity").value(userDataToSend.getUserCity()))
+//                .andExpect(jsonPath("$.planningsByUserId").value(userDataToSend.getPlanningsByUserId().isEmpty()))
+//                .andDo(print());
+//    }
+

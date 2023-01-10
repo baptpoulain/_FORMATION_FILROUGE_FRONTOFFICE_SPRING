@@ -9,6 +9,7 @@ import com.example.FilRougeFrontOffice.security.jwt.JwtUtils;
 import com.example.FilRougeFrontOffice.service.FilesStorageService;
 import com.example.FilRougeFrontOffice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,6 +34,7 @@ public class UserRestController {
 
     @Autowired
     JwtUtils jwtUtils;
+
 
     @GetMapping("/users")
     public ResponseEntity<List<UserDto>> fetchUsers() {

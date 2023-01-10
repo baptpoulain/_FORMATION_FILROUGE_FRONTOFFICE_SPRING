@@ -43,7 +43,6 @@ public class UserService {
         }
     }
 
-
     public List<UserDto> fetchUser() {
         List<UsersEntity> userList = new ArrayList<>();
         userRepository.findAll().forEach(u -> userList.add(u));

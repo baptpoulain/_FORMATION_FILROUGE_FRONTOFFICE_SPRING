@@ -26,10 +26,7 @@ public class EventsEntity {
     @Basic
     @Column(name = "event_endDate")
     private LocalDateTime eventEndDate;
-    @Basic
-    @JsonIgnore
-    @Column(name = "category_id")
-    private Integer categoryId;
+
     @Basic
     @Column(name = "planning_id")
     private int planningId;
@@ -99,14 +96,6 @@ public class EventsEntity {
         this.eventEndDate = eventEndDate;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public int getPlanningId() {
         return planningId;
     }
@@ -123,7 +112,6 @@ public class EventsEntity {
         EventsEntity that = (EventsEntity) o;
 
         if (eventId != that.eventId) return false;
-        if (categoryId != that.categoryId) return false;
         if (planningId != that.planningId) return false;
         if (!Objects.equals(eventName, that.eventName)) return false;
         if (!Objects.equals(eventDescription, that.eventDescription))
@@ -140,17 +128,8 @@ public class EventsEntity {
         result = 31 * result + (eventDescription != null ? eventDescription.hashCode() : 0);
         result = 31 * result + (eventStartDate != null ? eventStartDate.hashCode() : 0);
         result = 31 * result + (eventEndDate != null ? eventEndDate.hashCode() : 0);
-        result = 31 * result + categoryId;
         result = 31 * result + planningId;
         return result;
-    }
-
-    public CategoriesEntity getCategoriesByCategoryId() {
-        return categoriesByCategoryId;
-    }
-
-    public void setCategoriesByCategoryId(CategoriesEntity categoriesByCategoryId) {
-        this.categoriesByCategoryId = categoriesByCategoryId;
     }
 
     public PlanningsEntity getPlanningsByPlanningId() {
