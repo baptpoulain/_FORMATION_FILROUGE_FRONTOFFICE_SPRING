@@ -3,6 +3,8 @@ package com.example.FilRougeFrontOffice.controller.api;
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
 
+import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
+import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import com.example.FilRougeFrontOffice.security.jwt.JwtUtils;
 import com.example.FilRougeFrontOffice.service.FilesStorageService;
 import com.example.FilRougeFrontOffice.service.UserService;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -62,31 +65,36 @@ void when_fetchUsers_then_returnAllUsers() throws Exception {
             .andExpect(jsonPath("$.size()").value(users.size()))
             .andDo(print());
 }
+
+   @Test
+   @WithMockUser(roles = "USER")
+   void when_getUserById__then__returnUserAnd200() throws Exception {
+      //given
+       int idUser = 1;
+       UsersEntity user = new UsersEntity(
+                                "Poulain",
+                                "Baptiste",
+                                "none",
+                                "Tours"
+               );
+
+        user.setUserId(idUser);
+
+       List<PlanningsEntity> plannings = new ArrayList<>();
+       user.setPlanningsByUserId(plannings);
+
+      //when
+      when(userService.findById(idUser)).thenReturn(Optional.of(user));
+      //then
+
+       mockMvc.perform(get("/api/users/{id}", idUser))
+               .andExpect(status().isOk())
+               .andExpect(jsonPath("$.userId").value(idUser))
+               .andExpect(jsonPath("$.userName").value(user.getUserName()))
+               .andExpect(jsonPath("$.userFirstname").value(user.getUserFirstname()))
+               .andExpect(jsonPath("$.userPicture").value(user.getUserPicture()))
+               .andExpect(jsonPath("$.userCity").value(user.getUserCity()))
+               .andExpect(jsonPath("$.planningsByUserId").value(user.getPlanningsByUserId()))
+               .andDo(print());
+   }
 }
-
-//    @Test
-//    void when_getUserById__then__returnUserAnd200() throws Exception {
-//        //given
-//        int idUser = 1;
-//        UsersEntity user = new UsersEntity(
-//                                "Poulain",
-//                                "Baptiste",
-//                                "none",
-//                                "Rouen");
-//        user.setUserId(idUser);
-//
-//        //when
-//        when(userService.findById(idUser)).thenReturn(Optional.of(user));
-//        UserDto userDataToSend = UserDto.from(user);
-//        //then
-//        mockMvc.perform(get("/api/users/{id}", idUser))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.userId").value(idUser))
-//                .andExpect(jsonPath("$.userName").value(userDataToSend.getUserName()))
-//                .andExpect(jsonPath("$.userFirstname").value(userDataToSend.getUserFirstname()))
-//                .andExpect(jsonPath("$.userPicture").value(userDataToSend.getUserPicture()))
-//                .andExpect(jsonPath("$.userCity").value(userDataToSend.getUserCity()))
-//                .andExpect(jsonPath("$.planningsByUserId").value(userDataToSend.getPlanningsByUserId().isEmpty()))
-//                .andDo(print());
-//    }
-
