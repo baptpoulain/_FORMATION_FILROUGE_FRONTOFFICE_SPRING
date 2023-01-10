@@ -1,6 +1,7 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByUserAndPermission;
+import com.example.FilRougeFrontOffice.message.ResponseMessage;
 import com.example.FilRougeFrontOffice.repository.InteractRepository;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDto;
 import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByPlanning;
@@ -27,16 +28,19 @@ public class InteractController {
 
     @PostMapping("interact")
     public ResponseEntity<?> createInteraction(@RequestBody InteractEntityPK interactPlanning){
+        String message ="";
         try{
             interactService.addInteraction(interactPlanning);
-            return  ResponseEntity.status(HttpStatus.CREATED).build();
+            message = "Create interaction successfully";
+            return  ResponseEntity.status(HttpStatus.CREATED).body(new ResponseMessage(message));
         }catch (Exception e) {
-            return ResponseEntity.noContent().build();
+            message = "Fail to create interaction";
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseMessage(message));
         }
     }
 
     @GetMapping("interact/user/{id}")
-    public ResponseEntity<?> findInteractionByUserId(@PathVariable("id") int id){
+    public ResponseEntity<List<InteractEntityDto>> findInteractionByUserId(@PathVariable("id") int id){
         try{
             List<InteractEntityDto> list = interactService.findByUserId(id);
             return ResponseEntity.status(HttpStatus.OK).body(list);
@@ -70,25 +74,24 @@ public class InteractController {
         InteractEntityPK interactId = new InteractEntityPK(userId,planningId, permissionId);
 
         Optional<InteractEntity> interactData = interactService.findById(interactId);
-        if(interactData.isPresent()){
-            return true;
-        }
-        else {
-            return false;
-        }
+        return interactData.isPresent();
     }
     
     @DeleteMapping("interact/planning/{userId}/{planningId}/{permissionId}")
     public ResponseEntity<?> deleteInteractionByPlanningIdAndUserId(@PathVariable("userId") int userId,@PathVariable("planningId") int planningId, @PathVariable("permissionId") int permissionId ){
+        String message = "";
         InteractEntityPK interact = new InteractEntityPK(userId,planningId, permissionId);
 
         Optional<InteractEntity> interactData = interactService.findById(interact);
         if(interactData.isPresent()){
             interactService.deleteInteract(interact);
-            return new ResponseEntity<>(HttpStatus.OK);
+            message = "Interaction is delete successfully";
+
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
 
         }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            message = "Fail to delete the interaction";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseMessage(message));
         }
 
     }

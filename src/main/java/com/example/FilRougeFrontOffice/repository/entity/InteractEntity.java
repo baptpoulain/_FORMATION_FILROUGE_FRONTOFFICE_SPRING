@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "interact", schema = "bdd_fil_rouge")
+@Table(name = "interact")
 
 public class InteractEntity implements Serializable {
     @EmbeddedId

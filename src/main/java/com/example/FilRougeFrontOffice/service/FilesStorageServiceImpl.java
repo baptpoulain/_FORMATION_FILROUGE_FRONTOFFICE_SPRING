@@ -23,7 +23,7 @@ public class FilesStorageServiceImpl implements FilesStorageService{
     @Override
     public void save(MultipartFile file, UUID nameUuid, String mimeType) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(String.valueOf(nameUuid) + "." + mimeType));
+            Files.copy(file.getInputStream(), this.root.resolve(nameUuid + "." + mimeType));
         } catch (Exception e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }

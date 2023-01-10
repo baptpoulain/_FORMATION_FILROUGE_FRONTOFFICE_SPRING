@@ -36,9 +36,7 @@ public class InteractEntityPK implements Serializable {
 
         if (userId != that.userId) return false;
         if (planningId != that.planningId) return false;
-        if (permissionId != that.permissionId) return false;
-
-        return true;
+        return permissionId == that.permissionId;
     }
 
     @Override

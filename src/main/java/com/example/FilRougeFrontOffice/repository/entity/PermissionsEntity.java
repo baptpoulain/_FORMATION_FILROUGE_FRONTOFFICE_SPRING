@@ -3,9 +3,10 @@ package com.example.FilRougeFrontOffice.repository.entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Table(name = "permissions", schema = "bdd_fil_rouge")
+@Table(name = "permissions")
 public class PermissionsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -16,6 +17,14 @@ public class PermissionsEntity {
     private String permissionName;
     @OneToMany(mappedBy = "permissionsByPermissionId")
     private Collection<InteractEntity> interactsByPermissionId;
+
+    public PermissionsEntity(int permissionId, String permissionName) {
+        this.permissionId = permissionId;
+        this.permissionName = permissionName;
+    }
+
+    public PermissionsEntity() {
+    }
 
     public int getPermissionId() {
         return permissionId;
@@ -41,10 +50,7 @@ public class PermissionsEntity {
         PermissionsEntity that = (PermissionsEntity) o;
 
         if (permissionId != that.permissionId) return false;
-        if (permissionName != null ? !permissionName.equals(that.permissionName) : that.permissionName != null)
-            return false;
-
-        return true;
+        return Objects.equals(permissionName, that.permissionName);
     }
 
     @Override

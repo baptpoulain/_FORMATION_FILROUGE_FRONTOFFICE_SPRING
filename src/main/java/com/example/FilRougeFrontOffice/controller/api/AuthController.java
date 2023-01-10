@@ -3,7 +3,8 @@ package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.SigninRequest;
 import com.example.FilRougeFrontOffice.controller.dto.SignupRequest;
-import com.example.FilRougeFrontOffice.exception.UserAlreadyExistException;
+import com.example.FilRougeFrontOffice.repository.entity.exception.UserAlreadyExistException;
+import com.example.FilRougeFrontOffice.message.ResponseMessage;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import com.example.FilRougeFrontOffice.security.jwt.JwtResponse;
 import com.example.FilRougeFrontOffice.security.jwt.JwtUtils;
@@ -39,11 +40,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest dto){
+        String message = "";
         try{
             userService.signup(dto);
-            return ResponseEntity.status((HttpStatus.CREATED)).build();
+            message = "Create user successfully";
+            return ResponseEntity.status((HttpStatus.CREATED)).body(new ResponseMessage(message));
         }catch (UserAlreadyExistException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            message = "Fail to create the user";
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ResponseMessage(message));
         }
     }
 
@@ -75,8 +79,6 @@ public class AuthController {
                     generatedToken);
             defaultProperties.put("userLoginId", jwtResponse.getUserId());
 
-
-//todo planning
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(jwtResponse);

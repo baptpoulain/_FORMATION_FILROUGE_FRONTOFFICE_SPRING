@@ -1,4 +1,4 @@
-package com.example.FilRougeFrontOffice.exception;
+package com.example.FilRougeFrontOffice.repository.entity.exception;
 
 import com.example.FilRougeFrontOffice.message.ResponseMessage;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;

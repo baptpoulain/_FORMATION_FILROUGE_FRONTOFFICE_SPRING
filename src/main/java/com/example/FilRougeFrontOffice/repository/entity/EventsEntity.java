@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
-@Table(name = "events", schema = "bdd_fil_rouge")
+@Table(name = "events")
 public class EventsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -124,14 +125,12 @@ public class EventsEntity {
         if (eventId != that.eventId) return false;
         if (categoryId != that.categoryId) return false;
         if (planningId != that.planningId) return false;
-        if (eventName != null ? !eventName.equals(that.eventName) : that.eventName != null) return false;
-        if (eventDescription != null ? !eventDescription.equals(that.eventDescription) : that.eventDescription != null)
+        if (!Objects.equals(eventName, that.eventName)) return false;
+        if (!Objects.equals(eventDescription, that.eventDescription))
             return false;
-        if (eventStartDate != null ? !eventStartDate.equals(that.eventStartDate) : that.eventStartDate != null)
+        if (!Objects.equals(eventStartDate, that.eventStartDate))
             return false;
-        if (eventEndDate != null ? !eventEndDate.equals(that.eventEndDate) : that.eventEndDate != null) return false;
-
-        return true;
+        return Objects.equals(eventEndDate, that.eventEndDate);
     }
 
     @Override

@@ -3,9 +3,10 @@ package com.example.FilRougeFrontOffice.repository.entity;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Table(name = "categories", schema = "bdd_fil_rouge")
+@Table(name = "categories")
 public class CategoriesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -41,9 +42,7 @@ public class CategoriesEntity {
         CategoriesEntity that = (CategoriesEntity) o;
 
         if (categoryId != that.categoryId) return false;
-        if (categoryName != null ? !categoryName.equals(that.categoryName) : that.categoryName != null) return false;
-
-        return true;
+        return Objects.equals(categoryName, that.categoryName);
     }
 
     @Override

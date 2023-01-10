@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
-@Table(name = "plannings", schema = "bdd_fil_rouge")
+@Table(name = "plannings")
 public class PlanningsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -95,14 +96,11 @@ public class PlanningsEntity {
 
         if (planningId != that.planningId) return false;
         if (userId != that.userId) return false;
-        if (planningTitle != null ? !planningTitle.equals(that.planningTitle) : that.planningTitle != null)
+        if (!Objects.equals(planningTitle, that.planningTitle))
             return false;
-        if (planningDescription != null ? !planningDescription.equals(that.planningDescription) : that.planningDescription != null)
+        if (!Objects.equals(planningDescription, that.planningDescription))
             return false;
-        if (planningCreatedAt != null ? !planningCreatedAt.equals(that.planningCreatedAt) : that.planningCreatedAt != null)
-            return false;
-
-        return true;
+        return Objects.equals(planningCreatedAt, that.planningCreatedAt);
     }
 
     @Override

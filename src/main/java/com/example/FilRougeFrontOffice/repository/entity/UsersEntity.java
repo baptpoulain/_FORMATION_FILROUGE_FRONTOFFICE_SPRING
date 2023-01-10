@@ -9,9 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "users", schema = "bdd_fil_rouge")
+@Table(name = "users")
 public class UsersEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -143,15 +144,13 @@ public class UsersEntity implements UserDetails {
 
         if (userId != that.userId) return false;
         if (roleId != that.roleId) return false;
-        if (userName != null ? !userName.equals(that.userName) : that.userName != null) return false;
-        if (userFirstname != null ? !userFirstname.equals(that.userFirstname) : that.userFirstname != null)
+        if (!Objects.equals(userName, that.userName)) return false;
+        if (!Objects.equals(userFirstname, that.userFirstname))
             return false;
-        if (userPassword != null ? !userPassword.equals(that.userPassword) : that.userPassword != null) return false;
-        if (userEmail != null ? !userEmail.equals(that.userEmail) : that.userEmail != null) return false;
-        if (userPicture != null ? !userPicture.equals(that.userPicture) : that.userPicture != null) return false;
-        if (isActive != null ? !isActive.equals(that.isActive) : that.isActive != null) return false;
-
-        return true;
+        if (!Objects.equals(userPassword, that.userPassword)) return false;
+        if (!Objects.equals(userEmail, that.userEmail)) return false;
+        if (!Objects.equals(userPicture, that.userPicture)) return false;
+        return Objects.equals(isActive, that.isActive);
     }
 
     @Override

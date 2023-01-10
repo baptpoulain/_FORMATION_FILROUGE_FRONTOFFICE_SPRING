@@ -11,9 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface FilesStorageService {
 
-    public void save(MultipartFile file, UUID uuidName, String mimetype);
+    void save(MultipartFile file, UUID uuidName, String mimetype);
 
-    public Resource load(String filename);
+    Resource load(String filename);
 
-    public boolean delete(String filename);
+    boolean delete(String filename);
 }

@@ -1,4 +1,4 @@
-package com.example.FilRougeFrontOffice.exception;
+package com.example.FilRougeFrontOffice.repository.entity.exception;
 
 public class UserAlreadyExistException extends Throwable {
 

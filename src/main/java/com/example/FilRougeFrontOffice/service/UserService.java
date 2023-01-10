@@ -2,7 +2,7 @@ package com.example.FilRougeFrontOffice.service;
 
 import com.example.FilRougeFrontOffice.controller.dto.SignupRequest;
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
-import com.example.FilRougeFrontOffice.exception.UserAlreadyExistException;
+import com.example.FilRougeFrontOffice.repository.entity.exception.UserAlreadyExistException;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class UserService {
     private PasswordEncoder encoder;
 
     public void signup(SignupRequest userDto) throws UserAlreadyExistException {
-        Optional<UsersEntity> userOptional = userRepository.findByuserEmail(userDto.getUserEmail());
+        Optional<UsersEntity> userOptional = userRepository.findByUserEmail(userDto.getUserEmail());
 
         if (userOptional.isPresent()) {
             throw new UserAlreadyExistException((userDto.getUserName()));

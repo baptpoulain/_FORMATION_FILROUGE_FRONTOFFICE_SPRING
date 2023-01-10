@@ -1,11 +1,14 @@
 package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.EventDto;
+import com.example.FilRougeFrontOffice.controller.dto.InteractEntityDtoByUserAndPermission;
 import com.example.FilRougeFrontOffice.controller.dto.PlanningDto;
 
+import com.example.FilRougeFrontOffice.message.ResponseMessage;
 import com.example.FilRougeFrontOffice.repository.entity.EventsEntity;
 import com.example.FilRougeFrontOffice.repository.entity.PlanningsEntity;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
+import com.example.FilRougeFrontOffice.service.InteractService;
 import com.example.FilRougeFrontOffice.service.PlanningService;
 import com.example.FilRougeFrontOffice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.example.FilRougeFrontOffice.controller.api.AuthController.defaultProperties;
+
 
 @RestController
 @RequestMapping("/api")
@@ -27,6 +33,9 @@ public class PlanningRestController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    InteractService interactService;
 
 
     @GetMapping("user/{id}/planning")
@@ -84,9 +93,6 @@ public class PlanningRestController {
         }
     }
 
-
-
-
  @GetMapping("/planning/{id}")
  public ResponseEntity<PlanningDto> getPlanning(@PathVariable("id") int id) {
      try {
@@ -104,30 +110,48 @@ public class PlanningRestController {
 
  @PostMapping("/planning/event")
     public ResponseEntity<EventDto> createEventInPlanning(@RequestBody EventsEntity event){
+
+     int userLoginId = (int) defaultProperties.get("userLoginId");
+
      try{
+
+        if(event.getEventEndDate().isBefore(event.getEventStartDate())){
+            throw new IllegalArgumentException();
+        }
+
+
          Optional<PlanningsEntity> planningByEvent = planningService.findPlanningById(event.getPlanningId());
 
+        // Vérifie si l'utilisateur est le propriétaire du calendrier ou qu'il possède les autorisations d'écriture
+
+         List<InteractEntityDtoByUserAndPermission> interaction = interactService.findByPlanningIdAndUserId(event.getPlanningId(), userLoginId);
+         Optional<InteractEntityDtoByUserAndPermission> isReading = interaction.stream()
+                   .filter(p -> p.getPermissionsByPermissionId().getPermissionId() == 2)
+                 .findFirst();
+
+
          if(planningByEvent.isPresent()){
-             EventsEntity eventEntityAdd = planningService.createEvent(event);
-             EventDto eventToSend = EventDto.from(eventEntityAdd);
-             return ResponseEntity.status(HttpStatus.CREATED).body(eventToSend);
+
+             if(isReading.isPresent() || planningByEvent.get().getUserId() == userLoginId ){
+                 EventsEntity eventEntityAdd = planningService.createEvent(event);
+                 EventDto eventToSend = EventDto.from(eventEntityAdd);
+                 return ResponseEntity.status(HttpStatus.CREATED).body(eventToSend);
+             }else{
+                 throw new RuntimeException();
+             }
+
          }else{
              return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
          }
-     }catch (Exception e){
+     }catch (IllegalArgumentException e){
+         return ResponseEntity.badRequest().build();
+     } catch (Exception e){
          return ResponseEntity.noContent().build();
      }
  }
 
  @PutMapping("/planning/event/{id}")
-/*    public ResponseEntity<EventsEntity> updateEventInPlanning(@RequestBody EventsEntity eventsEntity){
-     Optional<List<EventsEntity>> eventData = planningService.findEventListByPlanningId(eventsEntity.getPlanningId());
-     if(eventData.isPresent()){
-         planningService.updEvent(eventData.get().stream().filter(event-> event.getEventId() == eventsEntity.getEventId()).collect(Collectors.toList()).get(0), eventsEntity);
-         return new ResponseEntity<>(HttpStatus.OK);
-     } else{
-         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-     }*/
+
      public ResponseEntity<EventDto> updateEventInPlanning(@PathVariable int id, @RequestBody EventsEntity eventsEntity){
          Optional<EventsEntity> event = planningService.findEventById(id);
          if(event.isPresent()){
@@ -140,12 +164,15 @@ public class PlanningRestController {
  }
 
  @DeleteMapping("/planning/event/{id}")
-    public ResponseEntity<EventsEntity> deleteEventInPlanning(@PathVariable int id){
+    public ResponseEntity<?> deleteEventInPlanning(@PathVariable int id){
+        String message = "";
         try {
             planningService.delEvent(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            message = "Event is delete successfully";
+            return ResponseEntity.status((HttpStatus.OK)).body(new ResponseMessage(message));
         }catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            message = "Fail to delete the event";
+            return  ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(new ResponseMessage(message));
         }
      }
  }

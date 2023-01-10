@@ -2,6 +2,7 @@ package com.example.FilRougeFrontOffice.controller.api;
 
 import com.example.FilRougeFrontOffice.controller.dto.UserDto;
 import com.example.FilRougeFrontOffice.controller.dto.UserPasswordDto;
+import com.example.FilRougeFrontOffice.message.ResponseMessage;
 import com.example.FilRougeFrontOffice.repository.UserRepository;
 import com.example.FilRougeFrontOffice.repository.entity.UsersEntity;
 import com.example.FilRougeFrontOffice.security.jwt.JwtUtils;
@@ -28,12 +29,6 @@ public class UserRestController {
     private UserService userService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
     FilesStorageService storageService;
 
     @Autowired
@@ -57,9 +52,21 @@ public class UserRestController {
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<UsersEntity> updateUser(@PathVariable("id") int id, @RequestParam("userFirstname") String userFirstname, @RequestParam("userName") String userName, @RequestParam("picture") String picture, @RequestParam("city") String city, @RequestParam("file") Optional<MultipartFile> files) {
+    public ResponseEntity<ResponseMessage> updateUser(@PathVariable("id") int id, @RequestParam("userFirstname") String userFirstname, @RequestParam("userName") String userName, @RequestParam("picture") Optional<String> picture, @RequestParam("city") String city, @RequestParam("file") Optional<MultipartFile> files) {
+        String message = "";
+        UserDto userDto= new UserDto();
+        if(picture.isPresent()){
+            userDto.setUserName(userName);
+            userDto.setUserFirstname(userFirstname);
+            userDto.setUserPicture(picture.get());
+            userDto.setUserCity(city);
 
-        UserDto userDto = new UserDto(userName, userFirstname, picture, city);
+        }else{
+            userDto.setUserName(userName);
+            userDto.setUserFirstname(userFirstname);
+            userDto.setUserPicture("");
+            userDto.setUserCity(city);
+        }
 
         int userLoginId = (int) defaultProperties.get("userLoginId");
 
@@ -74,7 +81,7 @@ public class UserRestController {
                     String oldFileName = userData.get().getUserPicture();
                     if (files.isPresent()) {
 
-                        Arrays.asList(files.get()).stream().forEach(file -> {
+                        List.of(files.get()).stream().forEach(file -> {
 
                             String fileType = file.getContentType();
                             String mimeType = fileType.replaceFirst("image/", "");
@@ -84,61 +91,68 @@ public class UserRestController {
                             userDto.setUserPicture(uuid + "." + mimeType);
                             userService.updUser(userData.get(), userDto);
 
-
-                           /* if( oldFileName != null && oldFileName.length() != 12 ){
-                                storageService.delete(oldFileName);
-                            }*/
-
                             if( oldFileName != null && oldFileName.contains("default")){
                                 storageService.delete(oldFileName);
                             }
 
                         });
-                        return new ResponseEntity<>(HttpStatus.OK);
+
+                        message = "User update successfully";
+                        return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.OK);
                     } else {
                         userService.updUser(userData.get(), userDto);
-                        return new ResponseEntity<>(HttpStatus.OK);
+                        message = "User update successfully";
+                        return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.OK);
                     }
                 } else {
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                    message = "Fail to update user";
+                    return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                message = "Fail to update user";
+                return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.CONFLICT);
             }
         } catch (Exception e) {
-
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            message = "Fail to update user";
+            return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.FORBIDDEN);
         }
 
     }
 
 
     @PutMapping("/users/password/{id}")
-    public ResponseEntity<UsersEntity> updatePasswordFromUser(@PathVariable("id") int id, @RequestBody UserPasswordDto pswDto){
+    public ResponseEntity<ResponseMessage> updatePasswordFromUser(@PathVariable("id") int id, @RequestBody UserPasswordDto pswDto){
+        String message = "";
         Optional<UsersEntity> userData = userService.findById(id);
         if(userData.isPresent()){
             Boolean retour  = userService.pwsIsGood(pswDto.getUserOldPassword(), userData.get().getUserPassword());
             if(retour){
                 userService.saveUserWithNewPsw(userData.get(), pswDto.getUserNewPassword());
-                return new ResponseEntity<>(HttpStatus.OK);
+                message = "Password updated ! ";
+                return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.OK);
             }
             else{
-                return new ResponseEntity<>((HttpStatus.CONFLICT));
+                message = "Fail to update password ! ";
+                return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.CONFLICT);
             }
         }
         else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            message = "Fail to update password ! ";
+            return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping("users/delete/{id}")
-    public ResponseEntity<UsersEntity> deleteUser(@PathVariable("id") int id){
+    public ResponseEntity<ResponseMessage> deleteUser(@PathVariable("id") int id){
+        String message = "";
         Optional<UsersEntity> userData = userService.findById(id);
         if(userData.isPresent()){
             userService.deleteUser(userData.get());
-            return new ResponseEntity<>(HttpStatus.OK);
+            message = "User deleted successfully ";
+            return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            message = "Fail to delete the user ";
+            return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.NOT_FOUND);
         }
     }
 
