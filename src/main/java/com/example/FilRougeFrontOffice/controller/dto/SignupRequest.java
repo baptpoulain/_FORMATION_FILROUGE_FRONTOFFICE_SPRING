@@ -21,6 +21,17 @@ public class SignupRequest {
 
     private int roleId;
 
+    public SignupRequest(String userName, String userFirstname, String userEmail, String userPassword, String userPicture, Byte isActive, int roleId, String userCity) {
+        this.userName = userName;
+        this.userFirstname = userFirstname;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        UserPicture = userPicture;
+        this.isActive = isActive;
+        this.roleId = roleId;
+        this.userCity = userCity;
+    }
+
     public SignupRequest() {
     }
 
