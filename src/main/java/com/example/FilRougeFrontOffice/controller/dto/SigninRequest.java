@@ -13,6 +13,11 @@ public class SigninRequest {
     public SigninRequest() {
     }
 
+    public SigninRequest(String userEmail, String userPassword) {
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+    }
+
     public void setUserEmail(String userName) {
         this.userEmail = userName;
     }

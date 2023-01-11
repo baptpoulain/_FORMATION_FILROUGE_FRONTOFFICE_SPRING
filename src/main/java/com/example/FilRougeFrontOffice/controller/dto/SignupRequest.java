@@ -35,6 +35,15 @@ public class SignupRequest {
     public SignupRequest() {
     }
 
+    public SignupRequest(String userName, String userFirstname,  String userPassword, String userEmail, String userPicture, String userCity) {
+        this.userName = userName;
+        this.userFirstname = userFirstname;
+        this.userPassword = userPassword;
+        this.userEmail = userEmail;
+        this.UserPicture = userPicture;
+        this.userCity = userCity;
+    }
+
     public int getUserId() {
         return userId;
     }

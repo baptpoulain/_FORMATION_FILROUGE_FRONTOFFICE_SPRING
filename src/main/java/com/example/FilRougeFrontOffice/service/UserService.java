@@ -23,7 +23,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public void signup(SignupRequest userDto) throws UserAlreadyExistException {
+    public UsersEntity signup(SignupRequest userDto) throws UserAlreadyExistException {
         Optional<UsersEntity> userOptional = userRepository.findByUserEmail(userDto.getUserEmail());
 
         if (userOptional.isPresent()) {
@@ -39,7 +39,7 @@ public class UserService {
                     1,
                     userDto.getUserCity());
 
-            userRepository.save(newUser);
+            return userRepository.save(newUser);
         }
     }
 
